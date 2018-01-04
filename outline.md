@@ -22,4 +22,9 @@
    * Adaptable Consumers
    * The Power of Numbers
    * _Adaptation Exercise_
+ * Wrap-up
+   * A RESTful Approach
+   * Message-oriented implementation
+   * Discovery constraints
+   * Emergent adaptability  
 
