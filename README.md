@@ -7,7 +7,7 @@
  * [Exercises](exercises/README.md)
  * [Workshop Examples](examples/README.md)
  * [Slides](slides/README.md)
- * [In-Class Notes]/notes/README.md)
+ * [In-Class Notes](/notes/README.md)
 
 ### Main Ideas
  * The role REST can play in microservice design
