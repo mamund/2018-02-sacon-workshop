@@ -1,4 +1,4 @@
-## RESTful Microservcices from the Ground Up
+## RESTful Microservices from the Ground Up
 
 ### Course Outline
 
