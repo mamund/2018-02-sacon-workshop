@@ -1,7 +1,7 @@
 ## RESTful Microservices from the Ground Up
 
 ### Other Links
- * [OReilly SACon Page](https://conferences.oreilly.com/software-architecture/sa-ny/public/schedule/detail/64016)
+ * [O'Reilly SACon Page](https://conferences.oreilly.com/software-architecture/sa-ny/public/schedule/detail/64016)
  * [Course Outline](outline.md)
  * [Prerequisites/Background](background.md)
  * [Exercises](exercises/README.md)
