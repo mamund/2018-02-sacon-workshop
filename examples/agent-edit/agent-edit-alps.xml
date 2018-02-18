@@ -1,0 +1,44 @@
+<alps version="1.0">
+  <doc>
+    Sales Agent Edit Service
+    
+    Allows adding/editing/deleting individual sales agents
+  </doc>
+
+  <!-- properties -->
+  <descriptor id="id" type="semantic" text="unique id for each sales agent" />
+  <descriptor id="name" type="semantic" text-"full name of the sales agent" />
+  <descriptor id="zip" type="semantic" text="assigned zipcode area for the sales agent" />
+
+  <!-- container -->
+  <descriptor id="agent" type="container" text="represents a complete sales agent record">>
+    <descriptor href="#id" />
+    <descriptor href="#name" />
+    <descriptor href="#zip" />
+  </descriptor>
+
+  <!-- actions -->
+  <descriptor id="list" type="safe" rt="agent" text="returns list of sales agents" />
+
+  <descriptor id="search" type="safe" rt="agent" text="returns a filtered list of sales agents">
+    <descriptor id="#zip" />
+  </descriptor>
+
+  <descriptor id="create" type="unsafe" rt="agent" text="adds a new sales agent record">
+    <descriptor href="#name" />
+    <descriptor href="#zip" />
+  </descriptor>
+
+  <descriptor id="read" type="safe" rt="agent" text="returns a single sales agent record">
+    <descriptor href="#id" />
+  </descriptor>
+
+  <descriptor id="update" type="idempotent" rt="agent" text="editing an existing sales agent record">
+    <descriptor id="#agent" />
+  </descriptor>
+
+  <descriptor id="delete" type="idempotent" rt="agent" text="remove an existing sales agent record">
+    <descriptor id="#id" />
+  </descriptor>
+
+</alps>
