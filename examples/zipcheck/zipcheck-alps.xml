@@ -13,7 +13,7 @@
   
   <!-- actions -->
   <descriptor id="zipcheck" type="safe" rt="#image">
-    <descriptor href="zip" />
+    <descriptor href="#zip" />
   </descriptor>
   
 </alps>
