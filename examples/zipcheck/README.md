@@ -4,7 +4,7 @@
 
 ### Service and Client
  * A live instance of the service is running here: http://amundsen.com/examples/zipcheck/zipcheck.ashx
- * An HTML Client (w/ pointers to source code can be found here: http://amundsen.com/examples/zipcheck/
+ * An HTML Client (w/ pointers to source code) can be found here: http://amundsen.com/examples/zipcheck/
 
 ### Using the ZIPCheck Service
 To use this service you simply send a query string that looks like this:
