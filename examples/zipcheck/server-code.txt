@@ -1,0 +1,70 @@
+<%@ WebHandler Language="C#" Class="ZipCheck" %>
+
+using System;
+using System.Web;
+
+using System.IO;
+using System.Collections;
+using System.Web.Caching;
+
+public class ZipCheck : IHttpHandler
+{
+    public void ProcessRequest(HttpContext ctx)
+    {
+        // load zip list, get arg and do lookup
+        ArrayList list = LoadZipCodes(ctx, "zip-codes.txt");
+        string lookup = (ctx.Request.Url.Query.Length > 0 ? ctx.Request.Url.Query.Substring(1) : string.Empty);
+        bool valid = list.Contains(lookup);
+
+        // set status code
+        ctx.Response.StatusCode = (valid ? 200 : 404);
+        
+        // set representation type and body
+        ctx.Response.ContentType = "image/png";
+        ctx.Response.TransmitFile(string.Format("{0}.png", valid));
+
+        // caching info
+        ctx.Response.AddHeader("Cache-Control", "public,max-age=108000");
+
+        // end connection
+        ctx.Response.End();
+
+    }
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+    
+    private ArrayList LoadZipCodes(HttpContext ctx, string datafile)
+    {
+        datafile = ctx.Server.MapPath(datafile);
+        ArrayList list = (ArrayList)ctx.Cache.Get(datafile);
+
+        if (list == null)
+        {
+            list = new ArrayList();
+            using (TextReader tr = new StreamReader(datafile))
+            {
+                while (tr.Peek() != -1)
+                {
+                    list.Add(tr.ReadLine());
+                }
+            }
+            
+            ctx.Cache.Add(
+                datafile,
+                list,
+                new CacheDependency(datafile),
+                Cache.NoAbsoluteExpiration,
+                Cache.NoSlidingExpiration,
+                CacheItemPriority.Normal,
+                null);
+        }
+
+        return list;   
+    }
+}
