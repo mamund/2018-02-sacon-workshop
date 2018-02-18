@@ -1,0 +1,19 @@
+<alps version="1.0">
+  <doc>
+    ZIPCheck service validates US ZIP code strings.
+    
+    The service returns either:
+    * 200 OK and true.png
+    * 404 Not Found and false.png
+  </doc>
+  
+  <!-- properties -->
+  <descriptor id="zip" type="semantic" text="value passed in to validate"/>
+  <descriptor id="image" type="semantic" text="image representing true/false"/>
+  
+  <!-- actions -->
+  <descriptor id="zipcheck" type="safe" rt="#image">
+    <descriptor href="zip" />
+  </descriptor>
+  
+</alps>
