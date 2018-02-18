@@ -18,7 +18,7 @@ where
 The service returns either:
  
  * `200 OK` and a green check-mark image ![true.png](true.png)
- * `404 Not Found` and a red X image ![false.png](/false.png)
+ * `404 Not Found` and a red X image ![false.png](false.png)
  
 Valid (`200 OK`) responses contain a caching header good for three hours:
 
