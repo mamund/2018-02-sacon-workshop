@@ -24,8 +24,11 @@ public class ZipCheck : IHttpHandler
         ctx.Response.ContentType = "image/png";
         ctx.Response.TransmitFile(string.Format("{0}.png", valid));
 
-		// caching info
-		ctx.Response.AddHeader("Cache-Control", "public,max-age=108000");
+        // caching info
+        ctx.Response.AddHeader("Cache-Control", "public,max-age=108000");
+        
+        // alps descriptor
+        ctx.Response.AddHeader("Link","<http://amundsen.com/examples/zipcheck/zipcheck-alps.xml>; rel='profile';")
 
         // end connection
         ctx.Response.End();
