@@ -17,12 +17,14 @@ where
 
 The service returns either:
  
- * `200 OK` and a green check-mark image ![true.png](true.png)
+ * `200 OK` and a green check image ![true.png](true.png)
  * `404 Not Found` and a red X image ![false.png](false.png)
- 
-Valid (`200 OK`) responses contain a caching header good for three hours:
 
-* `Cache-Control : "public,max-age=108000"`
+### Example Usage
+  * http://amundsen.com/examples/zipcheck/zipcheck.ashx?90210 returns ![true.png](true.png)
+  * http://amundsen.com/examples/zipcheck/zipcheck.ashx?9021X returns ![false.png](false.png)
 
-NOTE: ZIPCheck is a read-only service and only supports HTTP GET calls.
+### Notes
+ * Valid (`200 OK`) responses contain a caching header good for three hours: (`Cache-Control : "public,max-age=108000"`)
+ * ZIPCheck is a read-only service and only supports HTTP GET calls.
 
