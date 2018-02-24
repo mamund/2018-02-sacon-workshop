@@ -12,9 +12,23 @@ module.exports = main;
 // app-level actions for tasks
 function main(action, args1, args2, args3) {
   var name, rtn, props;
-    
-  props = ["serviceURL","serviceName","profile","mediaType","healthTTL","renewTTL","dateCreated","dateUpdated"];
+
   elm = 'disco';
+    
+  props = [
+    "serviceURL",
+    "serviceName",
+    "semanticProfile",
+    "requestMediaType",
+    "responseMediaType",
+    "healthURL",
+    "healthTTL",
+    "healthLastPing",
+    "renewTTL",
+    "renewListPing",
+    "dateCreated",
+    "dateUpdated"
+  ];
 
   switch (action) {
     case 'exists':
@@ -59,24 +73,20 @@ function addEntry(elm, entry, props) {
   item = {}
   item.serviceURL = (entry.serviceURL||"");
   item.serviceName = (entry.serviceName||"");
-  item.profile = (entry.profile||"");
-  item.mediaType = (entry.mediaType||"*/*");
+  item.semanticProfile = (entry.semanticProfile||"");
+  item.requestMediaType = (entry.requestMediaType||"*/*");
+  item.responseMediaType = (entry.responseMediaType||"*/*");
+  item.healthURL = (entry.healthURL||"");
   item.healthTTL = (entry.healthTTL||"60")*1000;
+  item.healthLastPing = (entry.healthLastPing||"");
+  item.renewTTL = (entry.renewTTL||"600")*1000;
+  item.renewLastPing = (entry.renewLastPing||"");
   
   if(item.serviceURL === "") {
     error += "Missing serviceURL ";
   }
-  if(item.serviceName==="") {
+  if(item.serviceName === "") {
     error += "Missing serviceName ";
-  } 
-  if(item.profile==="") {
-    error += "Missing profile ";
-  } 
-  if(item.mediaType==="") {
-    error += "Missing mediaType ";
-  } 
-  if(item.healthTTL==="") {
-    error += "Missing healthTTL ";
   } 
   
   if(error.length!==0) {

@@ -27,12 +27,12 @@ function html(object, root) {
   template += '<h1 id="title">{title}</h1>';
   template += '<div id="links">{links}</div>';
   template += '<div id="content">{content}</div>';
+  template += '  <div id="formset" class="column">';
+  template += '    <div id="forms">{forms}</div>';
+  template += '  </div>';
   template += '<div id="data">';
   template += '  <div id="dataset" class="column">';
   template += '    <div id="items">{items}</div>';
-  template += '  </div>';
-  template += '  <div id="formset" class="column">';
-  template += '    <div id="forms">{forms}</div>';
   template += '  </div>';
   template += '</div>';
   template += '</div>';
@@ -118,7 +118,7 @@ function processItems(data) {
     for(i=0,x=items.length;i<x;i++) {
       item = items[i];
       
-      rtn += '<div>';
+      rtn += '<div class="item">';
       
       // handle any item-level buttons
       rtn += '<div>'

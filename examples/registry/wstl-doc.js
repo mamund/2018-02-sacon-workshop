@@ -48,9 +48,12 @@ var wstl = [
     inputs : [
       {name : "serviceURL", prompt : "Service URL", value : "", required:true},
       {name : "serviceName", prompt : "Service Name", value : "", required:true},
-      {name : "profile", prompt : "Profiles", value : "", required:true},
-      {name : "mediaType", prompt : "Media Types", value : "", required:true},
-      {name : "pingTTL", prompt : "Ping (sec)", value : "30", required:false},
+      {name : "semanticProfile", prompt : "Profiles", value : ""},
+      {name : "requestMediaType", prompt : "Request Media Types", value : ""},
+      {name : "responseMediaType", prompt : "Request Media Types", value : ""},
+      {name : "healthURL", prompt : "Health URL", value : ""},
+      {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
+      {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},
     ]
   },
   {
@@ -128,31 +131,14 @@ var wstl = [
     inputs : [
       {name : "serviceURL", prompt : "Service URL", value : ""},
       {name : "serviceName", prompt : "Service Name", value : ""},
-      {name : "status", prompt : "Service Status", value : ""},
-      {name : "profile", prompt : "Profiles", value : ""},
-      {name : "mediaTGype", prompt : "Media Types", value : ""},
-      {name : "pingTTL", prompt : "Ping(sec)", value : ""},
+      {name : "semanticProfile", prompt : "Profiles", value : ""},
+      {name : "requestMediaType", prompt : "Request Media Types", value : ""},
+      {name : "responseMediaType", prompt : "Request Media Types", value : ""},
+      {name : "healthURL", prompt : "Health URL", value : ""},
+      {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
+      {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},
     ]
   },
-  {
-    name : "bindLink",
-    type : "safe",
-    action : "read",
-    kind : "disco",
-    target : "html link page",
-    prompt : "Bind to a Service",
-  },
-  {
-    name : "bindForm",
-    type : "unsafe",
-    action : "add",
-    kind : "disco",
-    target : "html form",
-    prompt : "Bind to a Service",
-    inputs : [
-      {name : "registryID", prompt : "Registry ID", value : "", required:true},
-    ]
-  }  
 ]; 
 
 module.exports = wstl;

@@ -59,14 +59,16 @@ function getList(object, filter) {
       if (filter) {
         t = null;
         for (var name in filter) {
-          try {
-            if (item[name].toString().toLowerCase().indexOf(filter[name].toString().toLowerCase()) !== -1) {
-              t = list[i];
-            } else {
+          if(filter[name].toString().length!==0) {
+            try {
+              if (item[name].toString().toLowerCase().indexOf(filter[name].toString().toLowerCase()) !== -1) { 
+                t = list[i];
+              } else {
+                t = null;
+              }
+            } catch (err) {
               t = null;
             }
-          } catch (err) {
-            t = null;
           }
         }
         if (t !== null) {

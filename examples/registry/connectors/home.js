@@ -6,6 +6,8 @@
 
 // handles HTTP resource operations 
 var wstl = require('./../wstl.js');
+var component = require('./../components/registry.js');
+
 var gTitle = "DISCO Registry";
 
 module.exports = main;
@@ -27,7 +29,7 @@ function sendPage(req, res, respond) {
 
   root = 'http://'+req.headers.host;
   coll = [];
-  data = [];
+  data = component('list');
   related = {};
   content = "";
   
@@ -36,10 +38,9 @@ function sendPage(req, res, respond) {
   coll = wstl.append({name:"unregisterLink",href:"/unreg/",rel:["delete-form", "unregister", "unreglink"], root:root},coll);
    coll = wstl.append({name:"renewLink",href:"/renew/",rel:["edit-form", "renew", "renewlink"], root:root},coll);
   coll = wstl.append({name:"findLink",href:"/find/",rel:["search", "find", "findlink"], root:root},coll);
-  coll = wstl.append({name:"bindLink",href:"/bind/",rel:["edit-form", "bind", "bindlink"], root:root},coll);
   
   content =  '<div>';
-  content += '<h2>Service Status</h2>';
+  content += '<h2>Registered Services</h2>';
   content += '</div>';
   
   // compose graph 

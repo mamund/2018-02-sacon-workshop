@@ -8,7 +8,7 @@ body {font-family:sans-serif;}
 
 ul,li,dl,dt,dd {margin:0; padding:0;}
 
-//p.id,p.dateCreated,p.dateUpdated {display:none;}
+p.id,p.dateCreated,p.dateUpdated {display:none;}
 p.item {margin:0;}
 #items li {margin-top:.5em;}
 
@@ -16,17 +16,20 @@ a.item {text-transform:capitalize;}
 a.link {margin-left:125px;}
 a.action {margin-left:.5em; margin-right:.5em;}
 
+div.item {float:left; border-style:solid; padding:1em; margin:1em; height:300px;}
+th {text-align:right;}
+
 span.prompt {display:block; width:125px; font-weight:bold; text-align:right; float:left; padding-right:.2em;text-transform:capitalize;}
 span.prompt::after{content:":"}
 span.value {clear:right;}
 
+form {width:500px;}
 form p {margin:0;}
 form legend {font-weight:bold;}
-form label {display:block; width:145px; font-weight:bold; text-align:right; float:left; padding-right:.2em;}
+form label {display:block; width:200px; font-weight:bold; text-align:right; float:left; padding-right:.2em;}
 form label::after{content:":"}
 form input {clear:right;}
 form input[type=submit] {margin-left:150px;font-weight:bold;}
-
 
 //#links ul {margin: 0;padding: 0;list-style-type: none;}
 //#links ul li {display: inline;}
