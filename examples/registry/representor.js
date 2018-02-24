@@ -18,10 +18,10 @@ module.exports = main;
 function main(object, mimeType, root) {
   var doc;
 
-  // clueless? assume JSON
   if (!mimeType) {
     mimeType = defaultFormat;
   }
+  
 
   // dispatch to requested representor
   switch (mimeType.toLowerCase()) {
