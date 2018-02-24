@@ -1,0 +1,113 @@
+<alps version="1.0">
+  <doc>
+    ALPS document describing DISCO services
+    ---------------------------------------
+    Allows services to register/unreg themselves in a shared, searchable registry of available services.
+    Allows services (including the registry) to perform a "ping" health-check
+    Allows services to "find/bind" to other services based on profile and mediaType criteria
+  </doc>
+  
+  <!-- data elements -->
+  <descriptor id="registryURL" type="semantic" text="URL of registry" />
+  <descriptor id="registryID" type="semantic" text="unique registry id of the service"/>
+  <descriptor id="regDateTime" type="semantic" text="UTC date/time when the service registered" />
+  <descriptor id="serviceURL" type="semantic" text="URL of service" />
+  <descriptor id="serviceName" type="semantic" text="text name of service, non-unique" />
+  <descriptor id="status" type="semantic" text="current status of service [up, down, unknown" />
+  <descriptor id="profile" type="semantic" text="space separated list of profile URIs" />
+  <descriptor id="mediaType" type="semantic" text="space separated list of mediaType identifiers" />
+  <descriptor id="healthURL" type="semantic" text="URL to use when sending health-check pings" />
+  <descriptor id="healthTTL" type="semantic" text="time-to-live (in seconds) for a valid health-check response" />
+  <descriptor id="healthLast" type="semantic" text="last date/time registry receigved a ping from the service" />
+  <descriptor id="bindCount" type="semantic" text="count (estimate) of clients using this service" />
+  <descriptor id="renewURL" type="semantic" text="URL to use when renewing the registry entry" />
+  <descriptor id="renewTTL" type="semantic" text="time-to-live (in seconds) for a valid renewal" />
+  <descriptor id="renewLast" type="semantic" text="last date/time of successful renewal" />
+
+  <!-- containers -->
+  <descriptor id="registryBlock" type="semantic">
+    <descriptor href="#registryURL" />
+    <descriptor href="#registryID" />
+    <descriptor href="#regDateTime" />
+    <descriptor href="#serviceURL" />
+    <descriptor href="#serviceName" />
+    <descriptor href="#status" />
+    <descriptor href="#profile" />
+    <descriptor href="#mediaType" />
+    <descriptor href="#healthURL" />
+    <descriptor href="#healthTTL" />
+    <descriptor href="#healthLast" />
+    <descriptor href="#renewURL" />
+    <descriptor href="#renewTTL" />
+    <descriptor href="#renewLast" />
+    <descriptor href="#bindCount" />
+  </descriptor>
+  
+  <!-- actions -->
+  <descriptor id="dashboard" type="safe" rt="registryBlock" text="returns status board"/>
+  
+  <descriptor id="itemLink" type="safe" rt="item" text="returns item form" />
+  <descriptor id="itemForm" name="item" type="safe" rt="registryBlock">
+    <doc>
+      returns a single registered item
+    </doc>
+    <descriptor href="#registryID" />
+  </descriptor>
+  
+  <descriptor id="registerLink" type="safe" rt="register" text="returns register form"/>
+  <descriptor id="registerForm" name="register" type="unsafe" rt="registryBlock">
+    <doc>
+      register a service in the shared registry
+    </doc>
+    <descriptor href="#registryURL" />
+    <descriptor href="#serviceURL" />
+    <descriptor href="#serviceName" />
+    <descriptor href="#profile" />
+    <descriptor href="#mediaType" />
+    <descriptor href="#pingTTL" />
+  </descriptor>
+  
+  <descriptor id="unregisterLink" type="safe" rt="unregister" text="returns unregister form"/>
+  <descriptor id="unregisterForm" name="unregister" type="idempotent" text="returns HTTP status code">
+    <doc>
+      unregister a service in the shared registry
+    </doc>
+    <descriptor href="#registryURL" />
+    <descriptor href="#registryID" />
+  </descriptor>
+  
+  <descriptor id="renewLink" type="safe" rt="registryBlock" text="returns renewal form" />
+  <descriptor id="renewForm" type="unsafe" rt="registryBlock">
+    <doc>
+      sends a renewal request *from* a running service to the registry
+    </doc>
+    <descriptor href="#registryURL" />
+    <descriptor href="#registryID" />
+  </descriptor>
+
+  <descriptor id="healthLink" type="safe" rt="registryBlock" text="returns health-check form"/>
+  <descriptor id="healthForm" name="ping" type="safe" text="registryBlock">
+    <doc>
+      send a health-check ping *to* a running service
+    </doc>
+    <descriptor href="#healthURL" />
+  </descriptor>
+  
+  <descriptor id="findLink" type="safe" rt="find" text="returns find form"/>
+  <descriptor id="findForm" name="find" type="safe" rt="registryBlock">
+    <doc>
+      ask for a filtered list of registered services that match the supplied criteria
+    </doc>
+    <descriptor href="#registryBlock" />
+  </descriptor>
+  
+  <descriptor id="bindLink" type="safe" rt="bind" text="returns bind form"/>
+  <descriptor id="bindForm" name="bind" type="idempotent" rt="registryBlock">
+    <doc>
+      assert a claim to using a service (sent to the registry)
+    </doc>
+    <descriptor href="#registryURL" />
+    <descriptor href="#registryID" />
+  </descriptor>
+  
+</alps>

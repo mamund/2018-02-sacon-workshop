@@ -1,0 +1,29 @@
+{
+  "name": "DISCO_Registry_Service",
+  "version": "1.0.0",
+  "description": "Prototype service registry/run-time discovery service",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "0.10.25"
+  },
+  "dependencies" : { 
+    "uritemplate" : "0.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RWMBook/rwm-examples.git"
+  },
+  "keywords": [
+    "Hypermedia", 
+    "REST", 
+    "RWMBook", 
+    "HTML", 
+    "DISCO", 
+    "registry", 
+    "Amundsen"
+  ],
+  "license": "MIT"
+}
