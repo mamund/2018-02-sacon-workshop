@@ -25,7 +25,7 @@ http.createServer(function (req, res) {
   
   // compute results
   g.compare = zipArg(req.url);
-  g.contentType = mimeType(req.headers.accept);
+  g.contentType = mimeType(req.headers.accept||"text/plain");
   found = zipcodes.filter(isValid);
   
   // format response 
