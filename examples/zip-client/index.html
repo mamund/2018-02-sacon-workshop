@@ -1,0 +1,28 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <title>ZIP Validator</title>
+  <script type="text/javascript">
+    function init() 
+    {
+      var server = 'http://localhost:8080?';
+      document.getElementById('zipImage').src = server;
+      
+      // bind anonymous method to onkeyup event
+      document.getElementById("zipText").onkeyup = function() {
+        document.getElementById("zipImage").src = server + document.getElementById("zipText").value;
+      };
+    }
+    window.onload = init; 
+  </script>
+</head>
+<body>
+  <h2>ZIP Validator</h2>
+  <p>Type the US ZIP code in the input box and watch the graphic turn into a green checkmark.</p>
+  <p>
+    <label for="zipText">Enter a US ZIP code:</label>
+    <input size="5" id="zipText" value=""/> 
+    <img src="" id="zipImage" alt="zipImage"/>
+  </p>
+</body>
+</html>
