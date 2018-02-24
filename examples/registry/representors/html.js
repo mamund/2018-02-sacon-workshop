@@ -78,15 +78,15 @@ function processPage(data, root, s, doc) {
   doc = doc.replace("{links}",rtn);
   
   // content
-  rtn = getContent(data);
+  rtn = getContent(data, root);
   doc = doc.replace('{content}',rtn);
   
   // items
-  rtn = processItems(data);
+  rtn = processItems(data, root);
   doc = doc.replace('{items}',rtn);
   
   // forms
-  rtn = getForms(data.actions);
+  rtn = getForms(data.actions, root);
   doc = doc.replace("{forms}",rtn);
   
   return doc;
@@ -105,7 +105,7 @@ function getContent(data) {
 }
 
 // use a state var to indicate 'record' or 'table' layout for items
-function processItems(data) {
+function processItems(data, root) {
   var rtn, i, x, z, items, item;
   
   z=0;
@@ -130,7 +130,17 @@ function processItems(data) {
       for(var prop in item) {
         rtn += '<tr class="item '+prop+'" >';
         rtn += '<th class="right aligned" style="text-transform:capitalize;">'+prop+'</th>';
-        rtn += '<td class="value">'+item[prop]+'</td>';      
+        switch (prop) {
+          case 'id':
+            rtn += '<td class="value"><a href="'+root+'/find/?id='+item[prop]+'">'+item[prop]+'</td>';
+            break;
+          case 'serviceURL':
+          case 'healthURL':
+            rtn += '<td class="value"><a href="'+item[prop]+'">'+item[prop]+'</td>';
+            break;
+          default:
+            rtn += '<td class="value">'+item[prop]+'</td>';      
+        }
         rtn += '</tr>';
       } 
       

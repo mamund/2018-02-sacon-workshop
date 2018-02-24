@@ -44,13 +44,13 @@ var wstl = [
     action : "add",
     kind : "disco",
     target : "html form",
-    prompt : "Register a Service",
+    prompt : "Register",
     inputs : [
       {name : "serviceURL", prompt : "Service URL", value : "", required:true},
       {name : "serviceName", prompt : "Service Name", value : "", required:true},
       {name : "semanticProfile", prompt : "Profiles", value : ""},
       {name : "requestMediaType", prompt : "Request Media Types", value : ""},
-      {name : "responseMediaType", prompt : "Request Media Types", value : ""},
+      {name : "responseMediaType", prompt : "Response Media Types", value : ""},
       {name : "healthURL", prompt : "Health URL", value : ""},
       {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
       {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},
@@ -71,7 +71,7 @@ var wstl = [
     action : "remove",
     kind : "disco",
     target : "html form",
-    prompt : "Unregister a Service",
+    prompt : "Unregister",
     inputs : [
       {name : "registryID", prompt : "Registry ID", value : "", required:true},
     ]
@@ -90,7 +90,7 @@ var wstl = [
     action : "update",
     kind : "disco",
     target : "html form",
-    prompt : "Renewal Form",
+    prompt : "Renewal",
     inputs : [
       {name : "registryID", prompt : "Registry ID", value : "", required : true}
     ]
@@ -109,7 +109,7 @@ var wstl = [
     action : "add",
     kind : "disco",
     target : "html form",
-    prompt : "Health Check Form",
+    prompt : "Health Check",
     inputs : [
       {name : "registryID", prompt : "Registry ID", value : "", required:true},
     ]
@@ -128,13 +128,13 @@ var wstl = [
     action : "read",
     kind : "disco",
     target : "html form",
-    prompt : "Find a Service",
+    prompt : "Find",
     inputs : [
       {name : "serviceURL", prompt : "Service URL", value : ""},
       {name : "serviceName", prompt : "Service Name", value : ""},
       {name : "semanticProfile", prompt : "Profiles", value : ""},
       {name : "requestMediaType", prompt : "Request Media Types", value : ""},
-      {name : "responseMediaType", prompt : "Request Media Types", value : ""},
+      {name : "responseMediaType", prompt : "Response Media Types", value : ""},
       {name : "healthURL", prompt : "Health URL", value : ""},
       {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
       {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},

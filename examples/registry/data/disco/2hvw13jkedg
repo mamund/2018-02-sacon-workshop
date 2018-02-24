@@ -1,0 +1,1 @@
+{"serviceURL":"http://localhost:8181","serviceName":"monitor","semanticProfile":"","requestMediaType":"*/*","responseMediaType":"*/*","healthURL":"","healthTTL":60000,"healthLastPing":"","renewTTL":600000,"renewListPing":"","tags":"","dateCreated":"2018-02-24T22:05:23.205Z","dateUpdated":"2018-02-24T22:05:23.205Z","id":"2hvw13jkedg"}

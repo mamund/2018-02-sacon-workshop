@@ -7,7 +7,6 @@
 // handles internal representation routing (based on conneg)
 
 // load representors
-//var html = require('./representors/html.js');
 var json = require('./representors/json.js');
 var html = require('./representors/html.js');
 var wstljson = require('./representors/wstljson.js');

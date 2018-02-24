@@ -1,0 +1,1 @@
+{"serviceURL":"http://amundsen.com/examples/zipcheck/zipcheck.ashx","serviceName":"zipcheck","semanticProfile":"","requestMediaType":"*/*","responseMediaType":"image/png","healthURL":"","healthTTL":60000,"healthLastPing":"","renewTTL":600000,"renewListPing":"","tags":"","dateCreated":"2018-02-24T21:50:55.263Z","dateUpdated":"2018-02-24T21:50:55.263Z","id":"k15aeycmfv"}

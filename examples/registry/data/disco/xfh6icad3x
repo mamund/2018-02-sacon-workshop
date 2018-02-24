@@ -1,0 +1,1 @@
+{"serviceURL":"http://localhost:8080","serviceName":"registry","semanticProfile":"","requestMediaType":"*/*","responseMediaType":"*/*","healthURL":"","healthTTL":60000,"healthLastPing":"","renewTTL":600000,"renewListPing":"","tags":"","dateCreated":"2018-02-24T22:04:33.439Z","dateUpdated":"2018-02-24T22:04:33.439Z","id":"xfh6icad3x"}

@@ -16,7 +16,7 @@ a.item {text-transform:capitalize;}
 a.link {margin-left:125px;}
 a.action {margin-left:.5em; margin-right:.5em;}
 
-div.item {float:left; border-style:solid; padding:1em; margin:1em; height:300px;}
+div.item {float:left; border-style:solid; padding:1em; margin:1em; height:350px; width:400px; overflow:scroll;}
 th {text-align:right;}
 
 span.prompt {display:block; width:125px; font-weight:bold; text-align:right; float:left; padding-right:.2em;text-transform:capitalize;}

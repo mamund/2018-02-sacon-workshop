@@ -51,16 +51,21 @@ function acceptEntry(req, res, respond) {
     }
 
     if (!doc) {
-      respond(req, res, {code:303, doc:"", 
-        headers:{'location':'//'+req.headers.host+"/reg/"}
+      respond(req, res, {code:301, doc:"", 
+        headers:{'location':'//'+req.headers.host+"/"}
       });
     } 
     else {
+      respond(req, res, {code:301, doc:"", 
+        headers:{'location':'//'+req.headers.host+"/find/?id="+doc.id}
+      });
+      /*
       var rtn = {};
       rtn.doc = doc;
       rtn.code = 201;
       console.log('doc:'+JSON.stringify(rtn,null,2));
       respond(req, res, rtn);
+      */
     }
   });
 }
