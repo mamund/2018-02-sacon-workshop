@@ -26,6 +26,7 @@ function main(action, args1, args2, args3) {
     "healthLastPing",
     "renewTTL",
     "renewListPing",
+    "tags",
     "dateCreated",
     "dateUpdated"
   ];
@@ -81,6 +82,7 @@ function addEntry(elm, entry, props) {
   item.healthLastPing = (entry.healthLastPing||"");
   item.renewTTL = (entry.renewTTL||"600")*1000;
   item.renewLastPing = (entry.renewLastPing||"");
+  item.tags = (entry.tags||"");
   
   if(item.serviceURL === "") {
     error += "Missing serviceURL ";

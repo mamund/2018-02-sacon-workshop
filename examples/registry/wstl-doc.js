@@ -54,6 +54,7 @@ var wstl = [
       {name : "healthURL", prompt : "Health URL", value : ""},
       {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
       {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},
+      {name : "tags", prompt : "Tags", value : ""},
     ]
   },
   {
@@ -137,6 +138,7 @@ var wstl = [
       {name : "healthURL", prompt : "Health URL", value : ""},
       {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
       {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},
+      {name : "tags", prompt : "Tags", value : ""},
     ]
   },
 ]; 
