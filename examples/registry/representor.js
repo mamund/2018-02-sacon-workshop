@@ -22,8 +22,7 @@ function main(object, mimeType, root) {
     mimeType = defaultFormat;
   }
   
-
-  // dispatch to requested representor
+  // dispatch to requested representor (or default)
   switch (mimeType.toLowerCase()) {
     case "application/vnd.wstl+json":
       doc = wstljson(object, root);

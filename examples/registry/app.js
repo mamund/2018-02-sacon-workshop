@@ -17,7 +17,6 @@ var reg = require('./connectors/reg.js');
 var unreg = require('./connectors/unreg.js');
 var renew = require('./connectors/renew.js');
 var find = require('./connectors/find.js');
-var bind = require('./connectors/bind.js');
 var utils = require('./connectors/utils.js');
 
 // shared vars
@@ -36,7 +35,6 @@ var reReg = new RegExp('^\/reg\/.*','i');
 var reRenew = new RegExp('^\/renew\/.*','i');
 var reUnreg = new RegExp('^\/unreg\/.*','i');
 var reFind = new RegExp('^\/find\/.*','i');
-var reBind = new RegExp('^\/bind\/.*','i');
 var reFile = new RegExp('^\/files\/.*','i');
 
 // request handler
@@ -104,12 +102,6 @@ function handler(req, res) {
     doc = find(req, res, parts, handleResponse);
   }
 
-  // bind handler
-  if(reBind.test(req.url)) {
-    flg = true;
-    doc = bind(req, res, parts, handleResponse);
-  }
-
   // file handler
   try {
     if(flg===false && reFile.test(req.url)) {
@@ -168,5 +160,5 @@ function sendResponse(req, res, body, code, headers) {
 
 // wait for request
 http.createServer(handler).listen(port);
-console.log('listening on port '+port);
+console.log('registry service listening on port '+port);
 
