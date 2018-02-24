@@ -57,7 +57,7 @@ http.createServer(function (req, res) {
       res.end(value+'\n');
   }
 }).listen(8080); 
-console.log('Server running on port 8080.');
+console.log('zip-server running on port 8080.');
 
 // array filter
 function isValid(arg) {

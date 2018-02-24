@@ -23,6 +23,7 @@ g.contentType = 'text/plain';
 http.createServer(function (req, res) {
   var found, value, image, status;
   
+  // compute results
   g.compare = zipArg(req.url);
   g.contentType = mimeType(req.headers.accept);
   found = zipcodes.filter(isValid);
