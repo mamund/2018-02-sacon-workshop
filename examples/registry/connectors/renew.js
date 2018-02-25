@@ -54,7 +54,7 @@ function postRenew(req, res, respond) {
       doc = utils.errorResponse(req, res, 'Server Error', 500);
     }
 
-    respond(req, res, {code:301, doc:"", 
+    respond(req, res, {code:301, doc:(!doc?"":doc), 
       headers:{'location':'//'+req.headers.host+"/find/?id="+msg.id}
     });
   });
@@ -93,7 +93,7 @@ function sendPage(req, res, respond) {
   respond(req, res, {
     code : 200,
     doc : {
-      home : doc
+      disco : doc
     }
   });
   

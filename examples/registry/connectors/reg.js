@@ -56,7 +56,7 @@ function acceptEntry(req, res, respond) {
       });
     } 
     else {
-      respond(req, res, {code:301, doc:"", 
+      respond(req, res, {code:301, doc:doc, 
         headers:{'location':'//'+req.headers.host+"/find/?id="+doc.id}
       });
     }
@@ -96,7 +96,7 @@ function sendPage(req, res, respond) {
   respond(req, res, {
     code : 200,
     doc : {
-      home : doc
+      disco : doc
     }
   });
   

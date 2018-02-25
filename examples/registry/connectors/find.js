@@ -58,7 +58,7 @@ function sendPage(req, res, respond, args) {
   respond(req, res, {
     code : 200,
     doc : {
-      home : doc
+      disco : doc
     }
   });
   
