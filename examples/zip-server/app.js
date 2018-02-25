@@ -10,9 +10,18 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var querystring = require('querystring');
+var discovery = require('./discovery.js');
 
-// pull in data once
+// pull in local data
+var config = require('./config.js');
 var zipcodes = require('./zip-codes.js');
+
+// register this service
+registerMe();
+
+// set up renewal interval
+setInterval(function(){renewMe()}, config.renewTTL);
 
 // share vars
 var g = {};
@@ -98,3 +107,48 @@ function mimeType(arg) {
   return rtn;
 }
 
+// register this service
+function registerMe() {
+  var body, data, options;
+  
+  body = {
+    serviceName : config.serviceName,
+    serviceURL : config.serviceURL
+  }
+  data = querystring.stringify(body);
+
+  options = {
+    host: config.registerHost,
+    port: config.registerPort,
+    path: config.registerPath,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      'Content-Length': Buffer.byteLength(data)
+    }
+  }
+  console.log(options);
+  discovery.register(options, data);
+}
+
+function renewMe() {
+  var body, data, options;
+  
+  body = {registryID : config.registryID}
+  data = querystring.stringify(body);
+
+  options = {
+    host: config.renewHost,
+    port: config.renewPort,
+    path: config.renewPath,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      'Content-Length': Buffer.byteLength(data)
+    }
+  }
+  console.log(options);
+  discovery.renew(options, data);
+}
