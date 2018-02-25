@@ -1,0 +1,1 @@
+{"id":"4fafcc5unh4","serviceURL":"http://localhost:8080/","serviceName":"zip-server","semanticProfile":"","requestMediaType":"*/*","responseMediaType":"*/*","healthURL":"","healthTTL":"60000","healthLastPing":"","renewTTL":"600000","renewLastPing":"","tags":"","dateCreated":"2018-02-25T18:41:35.404Z","dateUpdated":"2018-02-25T18:41:35.404Z"}

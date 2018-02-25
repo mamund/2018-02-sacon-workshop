@@ -9,27 +9,47 @@ var config = require('./config.js');
 
 // register a service
 exports.register = function(options, data) {
-
-  var registryRequest = http.request(options, function(registryResponse) {
-    registryResponse.setEncoding('utf8');
-    registryResponse.on('data', function(chunk) {
-      config.registryID = JSON.parse(chunk).id;
+  var body, msg, id;
+ 
+  body = ""; 
+  try {
+    var registryRequest = http.request(options, function(registryResponse) {
+      registryResponse.setEncoding('utf8');
+      registryResponse.on('data', function(chunk) {
+        body += JSON.parse(chunk).id; // actually important!
+        console.log(JSON.parse(chunk));
+      });
+      registryResponse.on('end', function() {
+          msg = JSON.parse(body);      
+          console.log('msg');
+          console.log(msg);
+      });
+      registryRequest.write(data);
+      registryRequest.end();
     });
-  });
-  registryRequest.write(data);
-  registryRequest.end();
+  }
+  catch (e) {
+    // ignore
+  }
+  return msg;
 } 
 
 // renew a service
 exports.renew = function(options, data) {
-  var registryRequest = http.request(options, function(registryResponse) {
-    registryResponse.setEncoding('utf8');
-    registryResponse.on('data', function(chunk) {
-      // throw it away
+
+  try {  
+    var registryRequest = http.request(options, function(registryResponse) {
+      registryResponse.setEncoding('utf8');
+      registryResponse.on('data', function(chunk) {
+        // throw it away
+      });
     });
-  });
-  registryRequest.write(data);
-  registryRequest.end();  
+    registryRequest.write(data);
+    registryRequest.end();  
+  }
+  catch (e) {
+    // ignore
+  }
 }
 
 

@@ -18,10 +18,16 @@ var config = require('./config.js');
 var zipcodes = require('./zip-codes.js');
 
 // register this service
-registerMe();
+config.registryID = registerMe();
+console.log(config.registryID);
 
 // set up renewal interval
 setInterval(function(){renewMe()}, config.renewTTL);
+
+// set up proper shutdown
+process.on('SIGTERM', function () {
+  server.close(unregisterMe());
+});
 
 // share vars
 var g = {};
@@ -128,8 +134,12 @@ function registerMe() {
       'Content-Length': Buffer.byteLength(data)
     }
   }
+  console.log('register');
+  console.log(data);
   console.log(options);
-  discovery.register(options, data);
+  var id= discovery.register(options, data);
+  console.log(id);
+  return id;
 }
 
 function renewMe() {
@@ -149,6 +159,35 @@ function renewMe() {
       'Content-Length': Buffer.byteLength(data)
     }
   }
+  console.log('renew');
+  console.log(data);
   console.log(options);
   discovery.renew(options, data);
+}
+
+function unregisterMe() {
+
+  var body, data, options;
+  
+  body = {registryID : config.registryID}
+  data = querystring.stringify(body);
+
+  options = {
+    host: config.unregisterHost,
+    port: config.runregisterPort,
+    path: config.unregisterPath,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      'Content-Length': Buffer.byteLength(data)
+    }
+  }
+  console.log('unregister');
+  console.log(data);
+  console.log(options);
+  discovery.unregister(options, data);
+
+  process.exit(0);
+
 }
