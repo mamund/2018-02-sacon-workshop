@@ -3,12 +3,6 @@
  * Mike Amundsen (@mamund)
  *******************************************************/
 
-/*
-  NOTE:
-  HTML representor for SPA-style rendering
-  Has FATAL dependency on WSTL.JS
-*/
-
 module.exports = html;
 
 // need to include forms and links here
@@ -70,6 +64,8 @@ function html(object, root) {
   return doc;
 }
 
+
+// all page elements
 function processPage(data, root, s, doc) {
   var rtn;
 
@@ -92,6 +88,7 @@ function processPage(data, root, s, doc) {
   return doc;
 }
 
+// static content
 function getContent(data) {
   var rtn;
   
@@ -104,7 +101,7 @@ function getContent(data) {
   return rtn;
 }
 
-// use a state var to indicate 'record' or 'table' layout for items
+// list of records/items
 function processItems(data, root) {
   var rtn, i, x, z, items, item;
   
@@ -156,6 +153,7 @@ function processItems(data, root) {
   return rtn;
 }
 
+// input forms
 function getForms(coll) {
   var i, x, z;
   
@@ -176,6 +174,8 @@ function getForms(coll) {
   return rtn;
 }
 
+
+// form helper
 function getForm(data, item, related) {
   var rtn, i, x, temp, type;
   
@@ -242,6 +242,7 @@ function getForm(data, item, related) {
 }
 
 
+// error message
 function processError(data) {
   var item, rtn;
 
@@ -258,6 +259,7 @@ function processError(data) {
   return rtn;
 }
 
+// link helper (for item links)
 function getItemActions(coll, item, target) {
   var rtn, i, x, t;
   
@@ -280,6 +282,7 @@ function getItemActions(coll, item, target) {
   return rtn;
 }
 
+// link helper (for page links)
 function getLinks(data, root, target) {
   var rtn, i, x, t, coll;
   
@@ -312,6 +315,7 @@ function getLinks(data, root, target) {
   return rtn;
 }
 
+// dropdown list helper
 function getSuggest(suggest, value, related) {
   var rtn, i, x, val, txt, vprop, tprop, list;
   

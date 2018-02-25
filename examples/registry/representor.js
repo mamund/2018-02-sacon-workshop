@@ -32,9 +32,8 @@ function main(object, mimeType, root) {
       break;
     case "application/html":
     case "text/html":
-      doc = html(object, root);  
     default:
-      doc = html(object, root);
+      doc = html(object, root);  
       break;
   }
 
