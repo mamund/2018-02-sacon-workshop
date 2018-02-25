@@ -18,13 +18,17 @@ function main(req, res, parts, respond) {
   case 'GET':
     sendPage(req, res, respond);
     break;
+  case 'POST':
+  case 'PATCH':
+    postRenew(req, res, respond);
+    break;
   default:
     respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
     break;
   }
 }
 
-function acceptEntry(req, res, respond) {
+function postRenew(req, res, respond) {
   var body, doc, msg;
 
   body = '';
@@ -38,7 +42,10 @@ function acceptEntry(req, res, respond) {
   req.on('end', function() {
     try {
       msg = utils.parseBody(body, req.headers["content-type"]);
-      doc = registry('add', msg);
+      msg.id = msg.registryID;
+      msg.renewLastPing = new Date();
+      doc = registry('update', msg.id, msg);
+      
       if(doc && doc.type==='error') {
         doc = utils.errorResponse(req, res, doc.message, doc.code);
       }
@@ -48,12 +55,14 @@ function acceptEntry(req, res, respond) {
     }
 
     if (!doc) {
-      respond(req, res, {code:303, doc:"", 
-        headers:{'location':'//'+req.headers.host+"/reg/"}
+      respond(req, res, {code:301, doc:"", 
+        headers:{'location':'//'+req.headers.host+"/"}
       });
     } 
     else {
-      respond(req, res, doc);
+      respond(req, res, {code:301, doc:"", 
+        headers:{'location':'//'+req.headers.host+"/find/?id="+msg.id}
+      });
     }
   });
 }

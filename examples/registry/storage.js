@@ -129,7 +129,7 @@ function updateItem(object, id, item) {
     rtn = utils.exception("DISCO", "Invalid [id]", 400);
     return rtn;
   }
-  
+   
   current = item;
   current.dateUpdated = new Date();
   

@@ -16,6 +16,7 @@ function main(action, args1, args2, args3) {
   elm = 'disco';
     
   props = [
+    "id",
     "serviceURL",
     "serviceName",
     "semanticProfile",
@@ -25,7 +26,7 @@ function main(action, args1, args2, args3) {
     "healthTTL",
     "healthLastPing",
     "renewTTL",
-    "renewListPing",
+    "renewLastPing",
     "tags",
     "dateCreated",
     "dateUpdated"
@@ -101,36 +102,40 @@ function addEntry(elm, entry, props) {
   return rtn;
 }
 
-function updateEntry(elm, id, note, props) {
+function updateEntry(elm, id, entry, props) {
   var rtn, check, item, error;
-  
+
   error = "";
-  check = storage(elm, 'item', id);
+  check = storage(elm, 'item', id);  
   if(check===null) {
     rtn = utils.exception("File Not Found", "No record on file", 404);
   }
   else {
     item = check;
-    item.id = id;      
-    item.title = (note.title===undefined?check.title:note.title);
-    item.text = (note.text===undefined?check.text:note.text);
-    item.assignedTask = check.assignedTask
-
-    if(item.title === "") {
-      error += "Missing Title ";
-    }
-    if(item.assignedTask==="") {
-      error += "Missing Assigned Task ";
-    } 
-    if(component.task('exists', item.assignedTask)===false) {
-      error += "Task ID not found. ";
-    }  
+    item.serviceURL = (entry.serviceURL===undefined?check.serviceURL:entry.serviceURL);
+    item.serviceName = (entry.serviceName===undefined?check.serviceName:entry.serviceName);
+    item.semanticProfile = (entry.semanticProfile===undefined?check.semanticProfile:entry.semanticProfile);
+    item.requestMediaType = (entry.requestMediaType===undefined?check.requestMediaType:entry.requestMediaType);
+    item.responseMediaType = (entry.responseMediaType===undefined?check.responseMediaType:entry.responseMediaType);
+    item.healthURL = (entry.healthURL===undefined?check.healthURL:entry.healthURL);
+    item.healthTTL = (entry.healthTTL===undefined?check.healthTTL:entry.healthTTL)*1000;
+    item.healthLastPing = (entry.healthLastPing===undefined?check.healthListPing:entry.healthLastPing);
+    item.renewTTL = (entry.renewTTL===undefined?check.renewTTL:entry.renewTTL)*1000;
+    item.renewLastPing = (entry.renewLastPing===undefined?check.renewLastPing:entry.renewLastPing);
+    item.tags = (entry.tags===undefined?check.tags:entry.tags);
     
+    if(item.serviceURL === "") {
+      error += "Missing serviceURL ";
+    }
+    if(item.serviceName === "") {
+      error += "Missing serviceName ";
+    } 
+      
     if(error!=="") {
       rtn = utils.exception(error);
     } 
     else {
-      storage(elm, 'update', id, utils.setProps(item, props));
+      rtn = storage(elm, 'update', id, utils.setProps(item, props));
     }
   }
   
