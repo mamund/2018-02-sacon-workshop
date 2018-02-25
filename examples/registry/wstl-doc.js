@@ -52,8 +52,8 @@ var wstl = [
       {name : "requestMediaType", prompt : "Request Media Types", value : ""},
       {name : "responseMediaType", prompt : "Response Media Types", value : ""},
       {name : "healthURL", prompt : "Health URL", value : ""},
-      {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
-      {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},
+      {name : "healthTTL", prompt : "Health TTL (msec)", value : ""},
+      {name : "renewTTL", prompt : "Renewal TTL (msec)", value : ""},
       {name : "tags", prompt : "Tags", value : ""},
     ]
   },
@@ -136,8 +136,8 @@ var wstl = [
       {name : "requestMediaType", prompt : "Request Media Types", value : ""},
       {name : "responseMediaType", prompt : "Response Media Types", value : ""},
       {name : "healthURL", prompt : "Health URL", value : ""},
-      {name : "healthTTL", prompt : "Health TTL (sec)", value : ""},
-      {name : "renewTTL", prompt : "Renewal TTL (sec)", value : ""},
+      {name : "healthTTL", prompt : "Health TTL (msec)", value : ""},
+      {name : "renewTTL", prompt : "Renewal TTL (msec)", value : ""},
       {name : "tags", prompt : "Tags", value : ""},
     ]
   },

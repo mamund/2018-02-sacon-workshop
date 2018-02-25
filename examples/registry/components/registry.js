@@ -79,9 +79,9 @@ function addEntry(elm, entry, props) {
   item.requestMediaType = (entry.requestMediaType||"*/*");
   item.responseMediaType = (entry.responseMediaType||"*/*");
   item.healthURL = (entry.healthURL||"");
-  item.healthTTL = (entry.healthTTL||"60")*1000;
+  item.healthTTL = (entry.healthTTL||"60000");
   item.healthLastPing = (entry.healthLastPing||"");
-  item.renewTTL = (entry.renewTTL||"600")*1000;
+  item.renewTTL = (entry.renewTTL||"600000");
   item.renewLastPing = (entry.renewLastPing||"");
   item.tags = (entry.tags||"");
   
@@ -118,9 +118,9 @@ function updateEntry(elm, id, entry, props) {
     item.requestMediaType = (entry.requestMediaType===undefined?check.requestMediaType:entry.requestMediaType);
     item.responseMediaType = (entry.responseMediaType===undefined?check.responseMediaType:entry.responseMediaType);
     item.healthURL = (entry.healthURL===undefined?check.healthURL:entry.healthURL);
-    item.healthTTL = (entry.healthTTL===undefined?check.healthTTL:entry.healthTTL)*1000;
+    item.healthTTL = (entry.healthTTL===undefined?check.healthTTL:entry.healthTTL);
     item.healthLastPing = (entry.healthLastPing===undefined?check.healthListPing:entry.healthLastPing);
-    item.renewTTL = (entry.renewTTL===undefined?check.renewTTL:entry.renewTTL)*1000;
+    item.renewTTL = (entry.renewTTL===undefined?check.renewTTL:entry.renewTTL);
     item.renewLastPing = (entry.renewLastPing===undefined?check.renewLastPing:entry.renewLastPing);
     item.tags = (entry.tags===undefined?check.tags:entry.tags);
     

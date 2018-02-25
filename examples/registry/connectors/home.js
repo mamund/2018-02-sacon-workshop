@@ -6,6 +6,7 @@
 
 // handles HTTP resource operations 
 var wstl = require('./../wstl.js');
+var utils = require('./utils.js');
 var component = require('./../components/registry.js');
 
 var gTitle = "DISCO Registry";

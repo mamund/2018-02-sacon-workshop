@@ -54,16 +54,9 @@ function postRenew(req, res, respond) {
       doc = utils.errorResponse(req, res, 'Server Error', 500);
     }
 
-    if (!doc) {
-      respond(req, res, {code:301, doc:"", 
-        headers:{'location':'//'+req.headers.host+"/"}
-      });
-    } 
-    else {
-      respond(req, res, {code:301, doc:"", 
-        headers:{'location':'//'+req.headers.host+"/find/?id="+msg.id}
-      });
-    }
+    respond(req, res, {code:301, doc:"", 
+      headers:{'location':'//'+req.headers.host+"/find/?id="+msg.id}
+    });
   });
 }
 
