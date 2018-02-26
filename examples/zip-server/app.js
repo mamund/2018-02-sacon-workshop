@@ -16,10 +16,10 @@ var discovery = require('./discovery.js');
 // pull in local data
 var config = require('./config.js');
 var zipcodes = require('./zip-codes.js');
+var registryID = '123';
 
 // register this service
-config.registryID = registerMe();
-console.log(config.registryID);
+registerMe();
 
 // set up renewal interval
 setInterval(function(){renewMe()}, config.renewTTL);
@@ -115,78 +115,29 @@ function mimeType(arg) {
 
 // register this service
 function registerMe() {
-  var body, data, options;
   
-  body = {
+  var body = {
     serviceName : config.serviceName,
     serviceURL : config.serviceURL
   }
-  data = querystring.stringify(body);
-
-  options = {
-    host: config.registerHost,
-    port: config.registerPort,
-    path: config.registerPath,
-    followAllRedirects: true,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json',
-      'Content-Length': Buffer.byteLength(data)
-    }
-  }
   console.log('register');
-  console.log(data);
-  console.log(options);
-  var id= discovery.register(options, data);
-  return id;
+  discovery.register(body);
 }
 
 function renewMe() {
-  var body, data, options;
   
-  body = {registryID : config.registryID}
-  data = querystring.stringify(body);
-
-  options = {
-    host: config.renewHost,
-    port: config.renewPort,
-    path: config.renewPath,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json',
-      'Content-Length': Buffer.byteLength(data)
-    }
-  }
+  var body = {registryID : config.registryID}
   console.log('renew');
-  console.log(data);
-  console.log(options);
-  discovery.renew(options, data);
+  console.log(body);
+  discovery.renew(body);
 }
 
 function unregisterMe() {
 
-  var body, data, options;
-  
-  body = {registryID : config.registryID}
-  data = querystring.stringify(body);
-
-  options = {
-    host: config.unregisterHost,
-    port: config.runregisterPort,
-    path: config.unregisterPath,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json',
-      'Content-Length': Buffer.byteLength(data)
-    }
-  }
+  var body = {registryID : config.registryID}
   console.log('unregister');
   console.log(data);
-  console.log(options);
-  discovery.unregister(options, data);
+  discovery.unregister(body);
 
   process.exit(0);
 

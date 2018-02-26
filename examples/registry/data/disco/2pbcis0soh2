@@ -1,0 +1,1 @@
+{"id":"2pbcis0soh2","serviceURL":"http://localhost:8080/","serviceName":"zip-server","semanticProfile":"","requestMediaType":"*/*","responseMediaType":"*/*","healthURL":"","healthTTL":"60000","healthLastPing":"","renewTTL":"600000","renewLastPing":"2018-02-26T01:39:58.446Z","tags":"","dateCreated":"2018-02-26T01:38:28.349Z","dateUpdated":"2018-02-26T01:39:58.446Z"}

@@ -6,37 +6,60 @@
 
 var http = require('http');
 var config = require('./config.js');
+var querystring = require('querystring');
 
 // register a service
-exports.register = function(options, data) {
-  var body, msg, id;
+exports.register = function(data) {
+  var options, body, msg;
  
-  body = ""; 
-  //try {
+  body = querystring.stringify(data); 
+  
+  options = {
+    host: config.registerHost,
+    port: config.registerPort,
+    path: config.registerPath,
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/x-www-form-urlencoded',
+      'Accept':'application/json',
+      'Content-Length':Buffer.byteLength(body)
+    }
+  }
+ 
+  try {
     var registryRequest = http.request(options, function(registryResponse) {
       registryResponse.setEncoding('utf8');
       registryResponse.on('data', function(chunk) {
-        body += chunk;
+        msg = JSON.parse(chunk);
+        config.registryID = msg.id;
       });
-      registryResponse.on('end', function() {
-          console.log(body);
-          msg = JSON.parse(body);      
-          console.log('msg');
-          console.log(msg);
-      });
-      registryRequest.write(data);
-      registryRequest.end();
     });
-  //}
-  //catch (e) {
-  //  // ignore
-  //}
-  return msg;
+    registryRequest.write(body);
+    registryRequest.end();
+  }
+  catch (e) {
+    // ignore
+  }
 } 
 
 // renew a service
-exports.renew = function(options, data) {
+exports.renew = function(data) {
+  var body, options;
 
+  body = querystring.stringify(data); 
+  
+  options = {
+    host: config.renewHost,
+    port: config.renewPort,
+    path: config.renewPath,
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/x-www-form-urlencoded',
+      'Accept':'application/json',
+      'Content-Length':Buffer.byteLength(body)
+    }
+  }
+ 
   try {  
     var registryRequest = http.request(options, function(registryResponse) {
       registryResponse.setEncoding('utf8');
@@ -44,7 +67,7 @@ exports.renew = function(options, data) {
         // throw it away
       });
     });
-    registryRequest.write(data);
+    registryRequest.write(body);
     registryRequest.end();  
   }
   catch (e) {
@@ -52,4 +75,36 @@ exports.renew = function(options, data) {
   }
 }
 
+// unregister a service
+exports.unregister = function(data) {
+  var body, options;
+
+  body = querystring.stringify(data); 
+  
+  options = {
+    host: config.unregisterHost,
+    port: config.unregisterPort,
+    path: config.unregisterPath,
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/x-www-form-urlencoded',
+      'Accept':'application/json',
+      'Content-Length':Buffer.byteLength(body)
+    }
+  }
+ 
+  try {  
+    var registryRequest = http.request(options, function(registryResponse) {
+      registryResponse.setEncoding('utf8');
+      registryResponse.on('data', function(chunk) {
+        // throw it away
+      });
+    });
+    registryRequest.write(body);
+    registryRequest.end();  
+  }
+  catch (e) {
+    // ignore
+  }
+}
 
