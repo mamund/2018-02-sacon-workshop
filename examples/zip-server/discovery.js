@@ -12,14 +12,14 @@ exports.register = function(options, data) {
   var body, msg, id;
  
   body = ""; 
-  try {
+  //try {
     var registryRequest = http.request(options, function(registryResponse) {
       registryResponse.setEncoding('utf8');
       registryResponse.on('data', function(chunk) {
-        body += JSON.parse(chunk).id; // actually important!
-        console.log(JSON.parse(chunk));
+        body += chunk;
       });
       registryResponse.on('end', function() {
+          console.log(body);
           msg = JSON.parse(body);      
           console.log('msg');
           console.log(msg);
@@ -27,10 +27,10 @@ exports.register = function(options, data) {
       registryRequest.write(data);
       registryRequest.end();
     });
-  }
-  catch (e) {
-    // ignore
-  }
+  //}
+  //catch (e) {
+  //  // ignore
+  //}
   return msg;
 } 
 

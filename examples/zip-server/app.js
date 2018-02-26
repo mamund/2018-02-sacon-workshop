@@ -127,6 +127,7 @@ function registerMe() {
     host: config.registerHost,
     port: config.registerPort,
     path: config.registerPath,
+    followAllRedirects: true,
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -138,7 +139,6 @@ function registerMe() {
   console.log(data);
   console.log(options);
   var id= discovery.register(options, data);
-  console.log(id);
   return id;
 }
 
