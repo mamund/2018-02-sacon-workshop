@@ -7,13 +7,14 @@
 var http = require('http');
 var config = require('./config.js');
 var querystring = require('querystring');
+var url = require('url');
 
 // register a service
 exports.register = function(data) {
   var options, body, msg;
- 
+   
   body = querystring.stringify(data); 
-  
+
   options = {
     host: config.registerHost,
     port: config.registerPort,
