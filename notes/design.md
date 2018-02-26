@@ -1,6 +1,6 @@
 ## Design Notes
 
-## KeepAlive
+### KeepAlive
  * Inputs
    * GUIID
    * DateSent
@@ -9,3 +9,6 @@
  * Output
    * success-status
    * error-info
+   
+ ### HTML Mapping
+ * id, name, class
