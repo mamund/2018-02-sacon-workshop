@@ -1,1 +1,0 @@
-{"id":"3o1610tpzma","serviceURL":"http://localhost:8083/","serviceName":"hello1","semanticProfile":"","requestMediaType":"*/*","responseMediaType":"","healthURL":"","healthTTL":60000,"healthLastPing":"","renewTTL":600000,"renewLastPing":"2018-02-25T02:04:56.069Z","tags":"howdy south","dateCreated":"2018-02-24T20:36:24.110Z","dateUpdated":"2018-02-25T02:04:56.071Z"}
