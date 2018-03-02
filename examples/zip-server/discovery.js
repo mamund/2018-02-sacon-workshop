@@ -26,7 +26,7 @@ exports.register = function(data) {
       'Content-Length':Buffer.byteLength(body)
     }
   }
- 
+
   try {
     var registryRequest = http.request(options, function(registryResponse) {
       registryResponse.setEncoding('utf8');
@@ -35,6 +35,11 @@ exports.register = function(data) {
         config.registryID = msg.id;
       });
     });
+
+    registryRequest.on('error', (e) => {
+      console.error(`problem with register request: ${e.message}`);
+    });
+
     registryRequest.write(body);
     registryRequest.end();
   }
@@ -68,6 +73,11 @@ exports.renew = function(data) {
         // throw it away
       });
     });
+ 
+    registryRequest.on('error', (e) => {
+      console.error(`problem with renew request: ${e.message}`);
+    });
+
     registryRequest.write(body);
     registryRequest.end();  
   }
@@ -79,7 +89,7 @@ exports.renew = function(data) {
 // unregister a service
 exports.unregister = function(data) {
   var body, options;
-
+	
   body = querystring.stringify(data); 
   
   options = {
@@ -101,6 +111,11 @@ exports.unregister = function(data) {
         // throw it away
       });
     });
+    
+    registryRequest.on('error', (e) => {
+      console.error(`problem with unregister request: ${e.message}`);
+    });
+
     registryRequest.write(body);
     registryRequest.end();  
   }
@@ -109,3 +124,76 @@ exports.unregister = function(data) {
   }
 }
 
+// find a service
+exports.find = function(data) {
+  var body, options;
+	
+  body = querystring.stringify(data); 
+  
+  options = {
+    host: config.findHost,
+    port: config.findPort,
+    path: config.findPath,
+    method: 'GET',
+    headers: {
+      'Accept':'application/json',
+    }
+  }
+ 
+  try {  
+    var registryRequest = http.request(options, function(registryResponse) {
+      registryResponse.setEncoding('utf8');
+      registryResponse.on('data', function(chunk) {
+        msg = JSON.parse(chunk);
+        config.foundServices = msg; // this is a hack!
+      });
+    });
+
+    registryRequest.on('error', (e) => {
+      console.error(`problem with find request: ${e.message}`);
+    });
+
+    registryRequest.end();  
+  }
+  catch (e) {
+    // ignore
+  }
+}
+
+exports.bind = function(data) { 
+  var options, body, msg;
+   
+  body = querystring.stringify(data); 
+
+  options = {
+    host: config.registerHost,
+    port: config.registerPort,
+    path: config.registerPath,
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/x-www-form-urlencoded',
+      'Accept':'application/json',
+      'Content-Length':Buffer.byteLength(body)
+    }
+  }
+ 
+  try {
+    var registryRequest = http.request(options, function(registryResponse) {
+      registryResponse.setEncoding('utf8');
+      registryResponse.on('data', function(chunk) {
+        msg = JSON.parse(chunk);
+        config.bound = msg; // this is a hack!
+      });
+    });
+
+    registryRequest.on('error', (e) => {
+      console.error(`problem with bind request: ${e.message}`);
+    });
+
+    registryRequest.write(body);
+    registryRequest.end();
+  }
+  catch (e) {
+    // ignore
+  }
+}

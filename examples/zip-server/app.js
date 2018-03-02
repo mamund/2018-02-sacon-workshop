@@ -115,30 +115,38 @@ function mimeType(arg) {
 
 // register this service
 function registerMe() {
-  
-  var body = {
-    serviceName : config.serviceName,
-    serviceURL : config.serviceURL
+  try {  
+    var body = {
+      serviceName : config.serviceName,
+      serviceURL : config.serviceURL
+    }
+    console.log('register');
+    discovery.register(body);
   }
-  console.log('register');
-  discovery.register(body);
+  catch(e) {}
 }
 
 function renewMe() {
-  
-  var body = {registryID : config.registryID}
-  console.log('renew');
-  console.log(body);
-  discovery.renew(body);
+  try { 
+    if(config.registryID && config.registryID!==null) { 
+      var body = {registryID : config.registryID}
+      console.log('renew');
+      console.log(body);
+      discovery.renew(body);
+    }
+  }
+  catch(e) {}
 }
 
 function unregisterMe() {
-
-  var body = {registryID : config.registryID}
-  console.log('unregister');
-  console.log(data);
-  discovery.unregister(body);
-
+  try {
+    if(config.registryID && config.registryID!==null) {
+      var body = {registryID : config.registryID}
+      console.log('unregister');
+      console.log(data);
+      discovery.unregister(body);
+    }
+  }
+  catch(e) {}
   process.exit(0);
-
 }
