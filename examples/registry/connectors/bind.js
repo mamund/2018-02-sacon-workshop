@@ -1,6 +1,6 @@
 /*******************************************************
  * service: disco registry
- * module: register connector
+ * module: bind another service
  * Mike Amundsen (@mamund)
  *******************************************************/
 
@@ -19,15 +19,15 @@ function main(req, res, parts, respond) {
     sendPage(req, res, respond);
     break;
   case 'POST':
-    acceptEntry(req, res, respond);
-    break;  
+    postBind(req, res, respond);
+    break;
   default:
     respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
     break;
   }
 }
 
-function acceptEntry(req, res, respond) {
+function postBind(req, res, respond) {
   var body, doc, msg;
 
   body = '';
@@ -41,7 +41,12 @@ function acceptEntry(req, res, respond) {
   req.on('end', function() {
     try {
       msg = utils.parseBody(body, req.headers["content-type"]);
-      doc = registry('add', msg);
+      msg.id = msg.registryID;
+      if(registry('exists',msg.id)===false) {
+        doc.type="error"
+        doc.message="404 Not Found";
+        doc.code = 404;
+      }      
       if(doc && doc.type==='error') {
         doc = utils.errorResponse(req, res, doc.message, doc.code);
       }
@@ -50,16 +55,9 @@ function acceptEntry(req, res, respond) {
       doc = utils.errorResponse(req, res, 'Server Error', 500);
     }
 
-    if (!doc) {
-      respond(req, res, {code:301, doc:"", 
-        headers:{'location':'//'+req.headers.host+"/"}
-      });
-    } 
-    else {
-      respond(req, res, {code:301, doc:doc, 
-        headers:{'location':'//'+req.headers.host+"/find/?id="+doc.id}
-      });
-    }
+    respond(req, res, {code:301, doc:(!doc?"":doc), 
+      headers:{'location':'//'+req.headers.host+"/find/?id="+msg.id}
+    });
   });
 }
 
@@ -79,10 +77,10 @@ function sendPage(req, res, respond) {
   coll = wstl.append({name:"findLink",href:"/find/",rel:["search", "find", "findlink"], root:root},coll);
   coll = wstl.append({name:"bindLink",href:"/bind/",rel:["search", "bind", "bindlink"], root:root},coll);
 
-  coll = wstl.append({name:"registerForm", href:"/reg/",rel:["create-form", "register", "regform"], root:root},coll);
+  coll = wstl.append({name:"bindForm", href:"/bind/",rel:["edit-form", "bind", "bindform"], root:root},coll);
   
   content =  '<div>';
-  content += '<h2>Register a Service</h2>';
+  content += '<h2>Bind a Service</h2>';
   content += '</div>';
   
   // compose graph 

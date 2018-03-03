@@ -141,6 +141,26 @@ var wstl = [
       {name : "tags", prompt : "Tags", value : ""},
     ]
   },
+  {
+    name : "bindLink",
+    type : "safe",
+    action : "read",
+    kind : "disco",
+    target : "html link page",
+    prompt : "Bind a Service",
+  },
+  {
+    name : "bindForm",
+    type : "unsafe",
+    action : "update",
+    kind : "disco",
+    target : "html form",
+    prompt : "Bind",
+    inputs : [
+      {name : "registryID", prompt : "Registry ID", value : "", required : true}
+    ]
+  },  
+  
 ]; 
 
 module.exports = wstl;

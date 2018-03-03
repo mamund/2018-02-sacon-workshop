@@ -17,6 +17,7 @@ var reg = require('./connectors/reg.js');
 var unreg = require('./connectors/unreg.js');
 var renew = require('./connectors/renew.js');
 var find = require('./connectors/find.js');
+var bind = require('./connectors/bind.js');
 var utils = require('./connectors/utils.js');
 
 var registry = require('./components/registry.js');
@@ -37,6 +38,7 @@ var reReg = new RegExp('^\/reg\/.*','i');
 var reRenew = new RegExp('^\/renew\/.*','i');
 var reUnreg = new RegExp('^\/unreg\/.*','i');
 var reFind = new RegExp('^\/find\/.*','i');
+var reBind = new RegExp('^\/bind\/.*','i');
 var reFile = new RegExp('^\/files\/.*','i');
 
 // set up unregister old entries
@@ -105,6 +107,12 @@ function handler(req, res) {
   if(reFind.test(req.url)) {
     flg = true;
     doc = find(req, res, parts, handleResponse);
+  }
+
+  // bind handler
+  if(reBind.test(req.url)) {
+    flg = true;
+    doc = bind(req, res, parts, handleResponse);
   }
 
   // file handler

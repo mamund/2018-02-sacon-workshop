@@ -39,6 +39,7 @@ function sendPage(req, res, respond, args) {
   coll = wstl.append({name:"unregisterLink",href:"/unreg/",rel:["delete-form", "unregister", "unreglink"], root:root},coll);
   coll = wstl.append({name:"renewLink",href:"/renew/",rel:["edit=form", "renew", "renewlink"], root:root},coll);
   coll = wstl.append({name:"findLink",href:"/find/",rel:["search", "find", "findlink"], root:root},coll);
+  coll = wstl.append({name:"bindLink",href:"/bind/",rel:["search", "bind", "bindlink"], root:root},coll);
   
   coll = wstl.append({name:"findForm", href:"/find/",rel:["search", "find", "findform"], root:root}, coll);
   
