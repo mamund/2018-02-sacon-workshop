@@ -50,21 +50,21 @@ http.createServer(function (req, res) {
       image = fs.readFileSync(fn);
       res.writeHead(status, 
         { 'Content-Type' : 'image/png', 
-          'Cache-Control': 'public,max-age=108000'
+          'Cache-Control': 'public,max-age='+config.maxAge
       });
       res.end(image,'binary');
       break;
     case 'application/json':
       res.writeHead(status, 
         { 'Content-Type' : 'application/json', 
-          'Cache-Control': 'public,max-age=108000'
+          'Cache-Control': 'public,max-age='+config.maxAge
       });
       res.end(JSON.stringify({zip:value})+'\n');
       break;
     default:
       res.writeHead(status,
         { 'Content-Type' :'text/plain', 
-          'Cache-Control': 'public,max-age=108000'
+          'Cache-Control': 'public,max-age='+config.maxAge
       });  
       res.end(value+'\n');
   }
