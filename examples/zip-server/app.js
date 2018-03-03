@@ -25,8 +25,7 @@ discovery.find({},serviceList);
 
 // set up proper registry shutdown
 process.on('SIGTERM', function () {
-  discovery.unregister();
-  process.exit(0);
+  discovery.unregister(null,shutdown);
 });
 
 // share vars
@@ -117,5 +116,10 @@ exports.serviceList = serviceList;
 function serviceList(data) {
   console.log('i found some services!');
   console.log(data);
+}
+
+exports.shutdown = shutdown;
+function shutdown(res) {
+  process.exit(0);
 }
 
