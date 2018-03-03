@@ -17,16 +17,21 @@ var discovery = require('./discovery.js');
 var config = require('./config.js');
 var zipcodes = require('./zip-codes.js');
 
+/********************************************
+FUN WITH DISCOVERY
+- register (renewal is handled automatically)
+- find (this sample just returns list)
+- unregister (unreg on orderly shutdown)
+********************************************/
 // register this service w/ defaults
 discovery.register();
 
-// sample sergice discovery action
-discovery.find({},serviceList);
-
-// set up proper registry shutdown
-process.on('SIGTERM', function () {
-  discovery.unregister(null,shutdown);
+// sample service discovery action
+discovery.find({}, function(data, response) {
+  console.log('i found some services!');
+  console.log(data);  
 });
+
 
 // share vars
 var g = {};
@@ -34,7 +39,10 @@ g.compare = null;
 g.contentType = config.accept;
 
 // create an http server to handle requests and response 
-http.createServer(function (req, res) {
+http.createServer(zipServer).listen(8080); 
+console.log('zip-server running on port 8080.');
+
+function zipServer(req, res) {
   var found, value, image, status;
   
   // compute results
@@ -70,8 +78,7 @@ http.createServer(function (req, res) {
       });  
       res.end(value+'\n');
   }
-}).listen(8080); 
-console.log('zip-server running on port 8080.');
+}
 
 // array filter
 function isValid(arg) {
@@ -112,14 +119,19 @@ function mimeType(arg) {
   return rtn;
 }
 
-exports.serviceList = serviceList;
-function serviceList(data) {
-  console.log('i found some services!');
-  console.log(data);
-}
-
-exports.shutdown = shutdown;
-function shutdown(res) {
-  process.exit(0);
-}
+// set up proper registry shutdown
+process.on('SIGTERM', function () {
+  console.log(zipServer);
+  
+  discovery.unregister(null, function(response) {
+    zipServer.close(function(){
+      console.log('gracefully shutting down');
+      process.exit(0);
+    });
+  });
+  setTimeout(function() {
+    console.error('forcefully shutting down');
+    process.exit(1);
+  }, 10000);  
+});
 
