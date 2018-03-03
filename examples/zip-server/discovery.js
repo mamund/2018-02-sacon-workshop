@@ -5,20 +5,27 @@
 *********************************************/
 
 var http = require('http');
-var config = require('./config.js');
+var settings = require('./discovery-settings.js');
 var querystring = require('querystring');
 var url = require('url');
+
+// public settings for discovery
+settings.registryID = null;
+exports.settings = settings;
 
 // register a service
 exports.register = function(data) {
   var options, body, msg;
-   
-  body = querystring.stringify(data); 
 
+  debugger;
+
+  body = querystring.stringify(data); 
+  report(`registering: ${body}`);
+  
   options = {
-    host: config.registerHost,
-    port: config.registerPort,
-    path: config.registerPath,
+    host: settings.registerHost,
+    port: settings.registerPort,
+    path: settings.registerPath,
     method: 'POST',
     headers: {
       'Content-Type':'application/x-www-form-urlencoded',
@@ -32,7 +39,8 @@ exports.register = function(data) {
       registryResponse.setEncoding('utf8');
       registryResponse.on('data', function(chunk) {
         msg = JSON.parse(chunk);
-        config.registryID = msg.id;
+        settings.registryID = msg.id;
+        report(`registered: ${settings.registryID}`)
       });
     });
 
@@ -43,9 +51,7 @@ exports.register = function(data) {
     registryRequest.write(body);
     registryRequest.end();
   }
-  catch (e) {
-    // ignore
-  }
+  catch (e) {}
 } 
 
 // renew a service
@@ -53,11 +59,12 @@ exports.renew = function(data) {
   var body, options;
 
   body = querystring.stringify(data); 
+  report(`renewing: ${body}`);
   
   options = {
-    host: config.renewHost,
-    port: config.renewPort,
-    path: config.renewPath,
+    host: settings.renewHost,
+    port: settings.renewPort,
+    path: settings.renewPath,
     method: 'POST',
     headers: {
       'Content-Type':'application/x-www-form-urlencoded',
@@ -70,7 +77,7 @@ exports.renew = function(data) {
     var registryRequest = http.request(options, function(registryResponse) {
       registryResponse.setEncoding('utf8');
       registryResponse.on('data', function(chunk) {
-        // throw it away
+        report("renewed");
       });
     });
  
@@ -91,11 +98,12 @@ exports.unregister = function(data) {
   var body, options;
 	
   body = querystring.stringify(data); 
+  report(`unregistering: ${body}`);
   
   options = {
-    host: config.unregisterHost,
-    port: config.unregisterPort,
-    path: config.unregisterPath,
+    host: settings.unregisterHost,
+    port: settings.unregisterPort,
+    path: settings.unregisterPath,
     method: 'POST',
     headers: {
       'Content-Type':'application/x-www-form-urlencoded',
@@ -108,7 +116,7 @@ exports.unregister = function(data) {
     var registryRequest = http.request(options, function(registryResponse) {
       registryResponse.setEncoding('utf8');
       registryResponse.on('data', function(chunk) {
-        // throw it away
+        report("unregistered");
       });
     });
     
@@ -129,11 +137,12 @@ exports.find = function(data) {
   var body, options;
 	
   body = querystring.stringify(data); 
+  report(`finding: ${body}`);
   
   options = {
-    host: config.findHost,
-    port: config.findPort,
-    path: config.findPath,
+    host: settings.findHost,
+    port: settings.findPort,
+    path: settings.findPath,
     method: 'GET',
     headers: {
       'Accept':'application/json',
@@ -145,7 +154,9 @@ exports.find = function(data) {
       registryResponse.setEncoding('utf8');
       registryResponse.on('data', function(chunk) {
         msg = JSON.parse(chunk);
-        config.foundServices = msg; // this is a hack!
+        settings.foundServices = msg; // this is a hack!
+        report(`found: ${msg}`);
+
       });
     });
 
@@ -164,6 +175,7 @@ exports.bind = function(data) {
   var options, body, msg;
    
   body = querystring.stringify(data); 
+  report(`binding: ${body}`);
 
   options = {
     host: config.registerHost,
@@ -183,6 +195,8 @@ exports.bind = function(data) {
       registryResponse.on('data', function(chunk) {
         msg = JSON.parse(chunk);
         config.bound = msg; // this is a hack!
+        report(`bound: ${msg}`);
+        
       });
     });
 
@@ -195,5 +209,12 @@ exports.bind = function(data) {
   }
   catch (e) {
     // ignore
+  }
+}
+
+// local functions
+function report(data) {
+  if(settings.verbose===true) {
+    console.log(data);
   }
 }

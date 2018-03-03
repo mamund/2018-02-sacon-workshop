@@ -14,7 +14,7 @@ config.registerHost = "localhost";
 config.registerPort = "8282";
 config.registerPath = "/reg/";
 
-config.renewTTL = 6000;
+config.renewTTL = 10000;
 config.renewURL = "http://localhost:8282/renew/";
 config.renewHost = "localhost";
 config.renewPort = "8282";

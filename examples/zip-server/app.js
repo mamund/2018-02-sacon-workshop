@@ -16,13 +16,12 @@ var discovery = require('./discovery.js');
 // pull in local data
 var config = require('./config.js');
 var zipcodes = require('./zip-codes.js');
-var registryID = '123';
 
 // register this service
 registerMe();
 
 // set up renewal interval
-setInterval(function(){renewMe()}, config.renewTTL);
+setInterval(function(){renewMe()}, discovery.settings.renewTTL);
 
 // set up proper shutdown
 process.on('SIGTERM', function () {
@@ -120,7 +119,6 @@ function registerMe() {
       serviceName : config.serviceName,
       serviceURL : config.serviceURL
     }
-    console.log('register');
     discovery.register(body);
   }
   catch(e) {}
@@ -128,10 +126,8 @@ function registerMe() {
 
 function renewMe() {
   try { 
-    if(config.registryID && config.registryID!==null) { 
-      var body = {registryID : config.registryID}
-      console.log('renew');
-      console.log(body);
+    if(discovery.settings.registryID && discovery.settings.registryID!==null) { 
+      var body = {registryID : discovery.settings.registryID}
       discovery.renew(body);
     }
   }
@@ -140,10 +136,8 @@ function renewMe() {
 
 function unregisterMe() {
   try {
-    if(config.registryID && config.registryID!==null) {
-      var body = {registryID : config.registryID}
-      console.log('unregister');
-      console.log(data);
+    if(discovery.settings.registryID && discovery.settings.registryID!==null) {
+      var body = {registryID : discovery.settings.registryID}
       discovery.unregister(body);
     }
   }
