@@ -11,13 +11,18 @@ var url = require('url');
 
 // public settings for discovery
 settings.registryID = null;
-exports.settings = settings;
 
 // register a service
-exports.register = function(data) {
+function register(data) {
   var options, body, msg;
 
-  debugger;
+  if(!data) {
+    data = {
+    serviceName : settings.serviceName,
+    serviceURL : settings.serviceURL,
+    renewTTL : settings.renewTTL
+    }
+  }
 
   body = querystring.stringify(data); 
   report(`registering: ${body}`);
@@ -34,13 +39,14 @@ exports.register = function(data) {
     }
   }
 
-  try {
+  //try {
     var registryRequest = http.request(options, function(registryResponse) {
       registryResponse.setEncoding('utf8');
       registryResponse.on('data', function(chunk) {
         msg = JSON.parse(chunk);
         settings.registryID = msg.id;
         report(`registered: ${settings.registryID}`)
+        setInterval(function(){renew()}, settings.renewTTL);
       });
     });
 
@@ -50,14 +56,19 @@ exports.register = function(data) {
 
     registryRequest.write(body);
     registryRequest.end();
-  }
-  catch (e) {}
+  //}
+  //catch (e) {}
 } 
 
 // renew a service
-exports.renew = function(data) {
+// defaults settings.registryID
+function renew(data) {
   var body, options;
 
+  if(!data) {
+    data = {"registryID" : settings.registryID}
+  };
+  
   body = querystring.stringify(data); 
   report(`renewing: ${body}`);
   
@@ -94,8 +105,13 @@ exports.renew = function(data) {
 }
 
 // unregister a service
-exports.unregister = function(data) {
+// data defaults to settings.registryID
+function unregister(data) {
   var body, options;
+
+  if(!data) {
+    data = {"registryID" : settings.registryID}
+  };
 	
   body = querystring.stringify(data); 
   report(`unregistering: ${body}`);
@@ -133,7 +149,7 @@ exports.unregister = function(data) {
 }
 
 // find a service
-exports.find = function(data) {
+function find(data) {
   var body, options;
 	
   body = querystring.stringify(data); 
@@ -171,9 +187,10 @@ exports.find = function(data) {
   }
 }
 
-exports.bind = function(data) { 
+// bind requested service
+function bind(data) { 
   var options, body, msg;
-   
+ 
   body = querystring.stringify(data); 
   report(`binding: ${body}`);
 
@@ -211,6 +228,14 @@ exports.bind = function(data) {
     // ignore
   }
 }
+
+// publish functions
+exports.settings = settings;
+exports.register = register;
+exports.renew = renew;
+exports.unregister = unregister;
+exports.find = find;
+exports.bind = bind;
 
 // local functions
 function report(data) {

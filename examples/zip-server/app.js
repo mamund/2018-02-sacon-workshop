@@ -17,15 +17,13 @@ var discovery = require('./discovery.js');
 var config = require('./config.js');
 var zipcodes = require('./zip-codes.js');
 
-// register this service
-registerMe();
+// register this service w/ defaults
+discovery.register();
 
-// set up renewal interval
-setInterval(function(){renewMe()}, discovery.settings.renewTTL);
-
-// set up proper shutdown
+// set up proper registry shutdown
 process.on('SIGTERM', function () {
-  server.close(unregisterMe());
+  server.close(discovery.unregister());
+  process.exit(0);
 });
 
 // share vars
@@ -112,35 +110,3 @@ function mimeType(arg) {
   return rtn;
 }
 
-// register this service
-function registerMe() {
-  try {  
-    var body = {
-      serviceName : config.serviceName,
-      serviceURL : config.serviceURL
-    }
-    discovery.register(body);
-  }
-  catch(e) {}
-}
-
-function renewMe() {
-  try { 
-    if(discovery.settings.registryID && discovery.settings.registryID!==null) { 
-      var body = {registryID : discovery.settings.registryID}
-      discovery.renew(body);
-    }
-  }
-  catch(e) {}
-}
-
-function unregisterMe() {
-  try {
-    if(discovery.settings.registryID && discovery.settings.registryID!==null) {
-      var body = {registryID : discovery.settings.registryID}
-      discovery.unregister(body);
-    }
-  }
-  catch(e) {}
-  process.exit(0);
-}

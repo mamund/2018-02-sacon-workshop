@@ -7,18 +7,19 @@ var settings = {}
 
 // general settings
 settings.verbose = true;
-
-// actions
 settings.registryID = null;
+settings.renewTTL = 10000;
+
+// your service identifiers
 settings.serviceName = "zip-server";
 settings.serviceURL = "http://localhost:8080/";
 
+// the resgistry service endpoints
 settings.registerURL = "http://localhost:8282/reg/";
 settings.registerHost = "localhost";
 settings.registerPort = "8282";
 settings.registerPath = "/reg/";
 
-settings.renewTTL = 10000;
 settings.renewURL = "http://localhost:8282/renew/";
 settings.renewHost = "localhost";
 settings.renewPort = "8282";
