@@ -20,7 +20,9 @@ var zipcodes = require('./zip-codes.js');
 // share vars
 var g = {};
 g.compare = null; 
-g.contentType = config.accept;
+g.contentType = "";
+g.defaultContentType = config.accept;
+g.cacheControl = config.cacheControl;
 
 /********************************************
 FUN WITH DISCOVERY
@@ -73,7 +75,7 @@ function zipServer(req, res) {
   
   // compute results
   g.compare = zipArg(req.url);
-  g.contentType = mimeType(req.headers.accept||g.contentType);
+  g.contentType = mimeType(req.headers.accept||g.defaultContentType);
   found = zipcodes.filter(isValid);
   
   // format response 
@@ -86,21 +88,21 @@ function zipServer(req, res) {
       image = fs.readFileSync(fn);
       res.writeHead(status, 
         { 'Content-Type' : 'image/png', 
-          'Cache-Control': 'public,max-age='+config.maxAge
+          'Cache-Control': g.cacheControl
       });
       res.end(image,'binary');
       break;
     case 'application/json':
       res.writeHead(status, 
         { 'Content-Type' : 'application/json', 
-          'Cache-Control': 'public,max-age='+config.maxAge
+          'Cache-Control': g.cacheControl
       });
       res.end(JSON.stringify({zip:value})+'\n');
       break;
     default:
       res.writeHead(status,
         { 'Content-Type' : g.contentType, 
-          'Cache-Control': 'public,max-age='+config.maxAge
+          'Cache-Control': g.cacheControl
       });  
       res.end(value+'\n');
   }

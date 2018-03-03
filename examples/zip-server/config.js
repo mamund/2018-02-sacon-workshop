@@ -5,9 +5,9 @@
 // create node
 var config = {}
 
-// populate node
-config.maxAge = 108000;
+// populate nodes
 config.accept = "text/plain";
+config.cacheControl = "public,max-age=108000";
 
 // publish node
 module.exports = config;
