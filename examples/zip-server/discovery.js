@@ -12,6 +12,14 @@ var url = require('url');
 // public settings for discovery
 settings.registryID = null;
 
+// single step does it all
+function findAndBind(data, cb) {
+  // use find() method to get full URLs for all dependent services
+  // use bind() to notify the registry you intended to use each dependent
+  // use register() to add yourself to the registry (also handles renew)
+  // if all goes well, execute the passed-in callback to continue
+}
+
 // register a service
 function register(data, cb) {
   var options, body, msg;
