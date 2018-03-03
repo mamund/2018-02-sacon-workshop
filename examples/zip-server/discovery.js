@@ -26,15 +26,15 @@ function register(data, cb) {
 
   body = querystring.stringify(data); 
   report(`registering: ${body}`);
-  
+    
   options = {
-    host: settings.registerHost,
-    port: settings.registerPort,
-    path: settings.registerPath,
+    host: url.parse(settings.registerURL).hostname,
+    port: url.parse(settings.registerURL).port,
+    path: url.parse(settings.registerURL).pathname,
     method: 'POST',
     headers: {
-      'Content-Type':'application/x-www-form-urlencoded',
-      'Accept':'application/json',
+      'Content-Type': settings.contentType,
+      'Accept': settings.acceptType,
       'Content-Length':Buffer.byteLength(body)
     }
   }
@@ -71,13 +71,13 @@ function renew(data, cb) {
   report(`renewing: ${body}`);
   
   options = {
-    host: settings.renewHost,
-    port: settings.renewPort,
-    path: settings.renewPath,
+    host: url.parse(settings.renewURL).hostname,
+    port: url.parse(settings.renewURL).port,
+    path: url.parse(settings.renewURL).pathname,
     method: 'POST',
     headers: {
-      'Content-Type':'application/x-www-form-urlencoded',
-      'Accept':'application/json',
+      'Content-Type': settings.contentType,
+      'Accept': settings.acceptType,
       'Content-Length':Buffer.byteLength(body)
     }
   }
@@ -100,7 +100,7 @@ function renew(data, cb) {
 
 // unregister a service
 // data defaults to settings.registryID
-function unregister(data) {
+function unregister(data, cb) {
   var body, options;
 
   if(!data) {
@@ -111,13 +111,13 @@ function unregister(data) {
   report(`unregistering: ${body}`);
   
   options = {
-    host: settings.unregisterHost,
-    port: settings.unregisterPort,
-    path: settings.unregisterPath,
+    host: url.parse(settings.unregisterURL).hostname,
+    port: url.parse(settings.unregisterURL).port,
+    path: url.parse(settings.unregisterURL).pathname,
     method: 'POST',
     headers: {
-      'Content-Type':'application/x-www-form-urlencoded',
-      'Accept':'application/json',
+      'Content-Type': settings.contentType,
+      'Accept': settings.acceptType,
       'Content-Length':Buffer.byteLength(body)
     }
   }
@@ -146,12 +146,12 @@ function find(data, cb) {
   report(`finding: ${body}`);
   
   options = {
-    host: settings.findHost,
-    port: settings.findPort,
-    path: settings.findPath,
+    host: url.parse(settings.findURL).hostname,
+    port: url.parse(settings.findURL).port,
+    path: url.parse(settings.findURL).pathname + (body===''?'':'?' + body),
     method: 'GET',
     headers: {
-      'Accept':'application/json',
+      'Accept':settings.acceptType,
     }
   }
  
@@ -178,13 +178,13 @@ function bind(data, cb) {
   report(`binding: ${body}`);
 
   options = {
-    host: config.registerHost,
-    port: config.registerPort,
-    path: config.registerPath,
+    host: url.parse(settings.bindURL).hostname,
+    port: url.parse(settings.bindURL).port,
+    path: url.parse(settings.bindURL).pathname,
     method: 'POST',
     headers: {
-      'Content-Type':'application/x-www-form-urlencoded',
-      'Accept':'application/json',
+      'Content-Type': settings.contentType,
+      'Accept': settings.acceptType,
       'Content-Length':Buffer.byteLength(body)
     }
   }
@@ -218,4 +218,12 @@ function report(data) {
   if(settings.verbose===true) {
     console.log(data);
   }
+}
+
+function hpp(href) {
+  url.parse(href);
+ 
+  console.log(url.parse(href).hostname);
+  console.log(url.parse(href).port);
+  console.log(url.parse(href).path);
 }

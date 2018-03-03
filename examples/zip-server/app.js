@@ -17,6 +17,11 @@ var discovery = require('./discovery.js');
 var config = require('./config.js');
 var zipcodes = require('./zip-codes.js');
 
+// share vars
+var g = {};
+g.compare = null; 
+g.contentType = config.accept;
+
 /********************************************
 FUN WITH DISCOVERY
 ** check details for discovery-settings.js **
@@ -27,21 +32,34 @@ FUN WITH DISCOVERY
         expose a health-check URL
 ********************************************/
 // register this service w/ defaults
-discovery.register();
+discovery.register(null, function(response) {
 
-// sample service discovery action
-discovery.find({}, function(data, response) {
-  console.log('running services:');
-  console.log(data);  
+  // sample service discovery action
+  discovery.find(null, function(data, response) {
+  
+    // select endpoints from query
+    list = JSON.parse(data);
+    if(list.disco.length!==0) {
+      // launch http server
+      http.createServer(zipServer).listen(8080); 
+      console.info('zip-server running on port 8080.');      
+    }
+    else {
+      console.error('unable to bind to dependent services');
+      process.kill(process.pid, "SIGTERM");
+    }    
+  });
 });
 
 // set up proper shutdown
 process.on('SIGTERM', function () {
   discovery.unregister(null, function(response) {
-    zipServer.close(function(){
+    try {  
+      zipServer.close(function() {
       console.log('gracefully shutting down');
-      process.exit(0);
-    });
+        process.exit(0);
+      });
+    } catch(e){}
   });
   setTimeout(function() {
     console.error('forcefully shutting down');
@@ -49,15 +67,7 @@ process.on('SIGTERM', function () {
   }, 10000);  
 });
 
-// share vars
-var g = {};
-g.compare = null; 
-g.contentType = config.accept;
-
-// create an http server to handle requests and response 
-http.createServer(zipServer).listen(8080); 
-console.log('zip-server running on port 8080.');
-
+// http listener to handle requests and response 
 function zipServer(req, res) {
   var found, value, image, status;
   
