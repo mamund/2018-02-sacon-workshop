@@ -19,19 +19,35 @@ var zipcodes = require('./zip-codes.js');
 
 /********************************************
 FUN WITH DISCOVERY
+** check details for discovery-settings.js **
 - register (renewal is handled automatically)
 - find (this sample just returns list)
 - unregister (unreg on orderly shutdown)
+  NOTE: this small service does not
+        expose a health-check URL
 ********************************************/
 // register this service w/ defaults
 discovery.register();
 
 // sample service discovery action
 discovery.find({}, function(data, response) {
-  console.log('i found some services!');
+  console.log('running services:');
   console.log(data);  
 });
 
+// set up proper shutdown
+process.on('SIGTERM', function () {
+  discovery.unregister(null, function(response) {
+    zipServer.close(function(){
+      console.log('gracefully shutting down');
+      process.exit(0);
+    });
+  });
+  setTimeout(function() {
+    console.error('forcefully shutting down');
+    process.exit(1);
+  }, 10000);  
+});
 
 // share vars
 var g = {};
@@ -119,19 +135,4 @@ function mimeType(arg) {
   return rtn;
 }
 
-// set up proper registry shutdown
-process.on('SIGTERM', function () {
-  console.log(zipServer);
-  
-  discovery.unregister(null, function(response) {
-    zipServer.close(function(){
-      console.log('gracefully shutting down');
-      process.exit(0);
-    });
-  });
-  setTimeout(function() {
-    console.error('forcefully shutting down');
-    process.exit(1);
-  }, 10000);  
-});
 

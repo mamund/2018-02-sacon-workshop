@@ -35,5 +35,10 @@ settings.findHost = "localhost";
 settings.findPort = "8282";
 settings.findPath = "/find/";
 
+settings.bindURL = "http://localhost:8282/bind/";
+settings.bindHost = "localhost";
+settings.bindPort = "8282";
+settings.bindPath = "/bind/";
+
 // publish node
 module.exports = settings;
