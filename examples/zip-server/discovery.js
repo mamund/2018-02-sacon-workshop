@@ -13,7 +13,7 @@ var url = require('url');
 settings.registryID = null;
 
 // register a service
-function register(data) {
+function register(data, cb) {
   var options, body, msg;
 
   if(!data) {
@@ -39,30 +39,28 @@ function register(data) {
     }
   }
 
-  //try {
-    var registryRequest = http.request(options, function(registryResponse) {
-      registryResponse.setEncoding('utf8');
-      registryResponse.on('data', function(chunk) {
-        msg = JSON.parse(chunk);
-        settings.registryID = msg.id;
-        report(`registered: ${settings.registryID}`)
-        setInterval(function(){renew()}, settings.renewTTL);
-      });
+  var registryRequest = http.request(options, function(registryResponse) {
+    registryResponse.setEncoding('utf8');
+    registryResponse.on('data', function(chunk) {
+      msg = JSON.parse(chunk);
+      settings.registryID = msg.id;
+      report(`registered: ${settings.registryID}`)
+      setInterval(function(){renew()}, settings.renewTTL);
+      if(typeof cb === "function") {cb(registryResponse)}
     });
+  });
 
-    registryRequest.on('error', (e) => {
-      console.error(`problem with register request: ${e.message}`);
-    });
+  registryRequest.on('error', (e) => {
+    console.error(`problem with register request: ${e.message}`);
+  });
 
-    registryRequest.write(body);
-    registryRequest.end();
-  //}
-  //catch (e) {}
+  registryRequest.write(body);
+  registryRequest.end();
 } 
 
 // renew a service
 // defaults settings.registryID
-function renew(data) {
+function renew(data, cb) {
   var body, options;
 
   if(!data) {
@@ -84,24 +82,20 @@ function renew(data) {
     }
   }
  
-  try {  
-    var registryRequest = http.request(options, function(registryResponse) {
-      registryResponse.setEncoding('utf8');
-      registryResponse.on('data', function(chunk) {
-        report("renewed");
-      });
+  var registryRequest = http.request(options, function(registryResponse) {
+    registryResponse.setEncoding('utf8');
+    registryResponse.on('data', function(chunk) {
+      report("renewed");
+      if(typeof cb === "function") {cb(registryResponse)}
     });
- 
-    registryRequest.on('error', (e) => {
-      console.error(`problem with renew request: ${e.message}`);
-    });
+  });
 
-    registryRequest.write(body);
-    registryRequest.end();  
-  }
-  catch (e) {
-    // ignore
-  }
+  registryRequest.on('error', (e) => {
+    console.error(`problem with renew request: ${e.message}`);
+  });
+
+  registryRequest.write(body);
+  registryRequest.end();  
 }
 
 // unregister a service
@@ -128,28 +122,24 @@ function unregister(data) {
     }
   }
  
-  try {  
-    var registryRequest = http.request(options, function(registryResponse) {
-      registryResponse.setEncoding('utf8');
-      registryResponse.on('data', function(chunk) {
-        report("unregistered");
-      });
+  var registryRequest = http.request(options, function(registryResponse) {
+    registryResponse.setEncoding('utf8');
+    registryResponse.on('data', function(chunk) {
+      report("unregistered");
+      if(typeof cb === "function") {cb(registryResponse)}
     });
-    
-    registryRequest.on('error', (e) => {
-      console.error(`problem with unregister request: ${e.message}`);
-    });
+  });
+  
+  registryRequest.on('error', (e) => {
+    console.error(`problem with unregister request: ${e.message}`);
+  });
 
-    registryRequest.write(body);
-    registryRequest.end();  
-  }
-  catch (e) {
-    // ignore
-  }
+  registryRequest.write(body);
+  registryRequest.end();  
 }
 
 // find a service
-function find(data) {
+function find(data, cb) {
   var body, options;
 	
   body = querystring.stringify(data); 
@@ -165,30 +155,23 @@ function find(data) {
     }
   }
  
-  try {  
-    var registryRequest = http.request(options, function(registryResponse) {
-      registryResponse.setEncoding('utf8');
-      registryResponse.on('data', function(chunk) {
-        msg = JSON.parse(chunk);
-        settings.foundServices = msg; // this is a hack!
-        report(`found: ${msg}`);
-
-      });
+  var registryRequest = http.request(options, function(registryResponse) {
+    registryResponse.setEncoding('utf8');
+    registryResponse.on('data', function(chunk) {
+      report(`found: ${chunk}`);
+      if(typeof cb === "function") {cb(chunk,registryResponse)}
     });
+  });
 
-    registryRequest.on('error', (e) => {
-      console.error(`problem with find request: ${e.message}`);
-    });
+  registryRequest.on('error', (e) => {
+    console.error(`problem with find request: ${e.message}`);
+  });
 
-    registryRequest.end();  
-  }
-  catch (e) {
-    // ignore
-  }
+  registryRequest.end();  
 }
 
 // bind requested service
-function bind(data) { 
+function bind(data, cb) { 
   var options, body, msg;
  
   body = querystring.stringify(data); 
@@ -206,27 +189,20 @@ function bind(data) {
     }
   }
  
-  try {
-    var registryRequest = http.request(options, function(registryResponse) {
-      registryResponse.setEncoding('utf8');
-      registryResponse.on('data', function(chunk) {
-        msg = JSON.parse(chunk);
-        config.bound = msg; // this is a hack!
-        report(`bound: ${msg}`);
-        
-      });
+  var registryRequest = http.request(options, function(registryResponse) {
+    registryResponse.setEncoding('utf8');
+    registryResponse.on('data', function(chunk) {
+      report(`bound: ${msg}`);
+      if(typeof cb === "function") {cb(registryResponse)}      
     });
+  });
 
-    registryRequest.on('error', (e) => {
-      console.error(`problem with bind request: ${e.message}`);
-    });
+  registryRequest.on('error', (e) => {
+    console.error(`problem with bind request: ${e.message}`);
+  });
 
-    registryRequest.write(body);
-    registryRequest.end();
-  }
-  catch (e) {
-    // ignore
-  }
+  registryRequest.write(body);
+  registryRequest.end();
 }
 
 // publish functions

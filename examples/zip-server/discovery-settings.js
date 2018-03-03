@@ -8,7 +8,7 @@ var settings = {}
 // general settings
 settings.verbose = true;
 settings.registryID = null;
-settings.renewTTL = 10000;
+settings.renewTTL = 30000;
 
 // your service identifiers
 settings.serviceName = "zip-server";
@@ -29,6 +29,11 @@ settings.unregisterURL = "http://localhost:8282/unreg/";
 settings.unregisterHost = "localhost";
 settings.unregisterPort = "8282";
 settings.unregisterPath = "/unreg/";
+
+settings.findURL = "http://localhost:8282/find/";
+settings.findHost = "localhost";
+settings.findPort = "8282";
+settings.findPath = "/find/";
 
 // publish node
 module.exports = settings;

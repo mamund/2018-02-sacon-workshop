@@ -20,16 +20,19 @@ var zipcodes = require('./zip-codes.js');
 // register this service w/ defaults
 discovery.register();
 
+// sample sergice discovery action
+discovery.find({},serviceList);
+
 // set up proper registry shutdown
 process.on('SIGTERM', function () {
-  server.close(discovery.unregister());
+  discovery.unregister();
   process.exit(0);
 });
 
 // share vars
 var g = {};
 g.compare = null; 
-g.contentType = 'text/plain';
+g.contentType = config.accept;
 
 // create an http server to handle requests and response 
 http.createServer(function (req, res) {
@@ -37,7 +40,7 @@ http.createServer(function (req, res) {
   
   // compute results
   g.compare = zipArg(req.url);
-  g.contentType = mimeType(req.headers.accept||"text/plain");
+  g.contentType = mimeType(req.headers.accept||g.contentType);
   found = zipcodes.filter(isValid);
   
   // format response 
@@ -63,7 +66,7 @@ http.createServer(function (req, res) {
       break;
     default:
       res.writeHead(status,
-        { 'Content-Type' :'text/plain', 
+        { 'Content-Type' : g.contentType, 
           'Cache-Control': 'public,max-age='+config.maxAge
       });  
       res.end(value+'\n');
@@ -108,5 +111,11 @@ function mimeType(arg) {
   }  
   
   return rtn;
+}
+
+exports.serviceList = serviceList;
+function serviceList(data) {
+  console.log('i found some services!');
+  console.log(data);
 }
 
