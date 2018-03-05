@@ -13,6 +13,7 @@ var url = require('url');
 settings.registryID = null;
 
 // single step does it all
+// TODO
 function findAndBind(data, cb) {
   // use find() method to get full URLs for all dependent services
   // use bind() to notify the registry you intended to use each dependent
