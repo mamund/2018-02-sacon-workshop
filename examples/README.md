@@ -7,5 +7,5 @@ Workshop examples go here.
  * [ZIP-Consumer](zip-consumer/) (NodeJS middleware)
  * [ZIP-Client](zip-client/) (HTML client)
  * [ZIPCheck](zipcheck/) (C#/ASP.NET)
-
+ * [UUID Generator](uuid-generator) (NodeJS pass-thru service)
 
