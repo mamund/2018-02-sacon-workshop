@@ -1,18 +1,17 @@
-## ZIP-Server
+## UUID Generator
 
-Simple NodeJS server that validates US ZIP code values.
+Simple NodeJS server that returns UUIDs. These UUIDs are actually collected from _another_ service (https://uuidgenerator.net/api). That means this service has a dependency on another service.
 
 ### Usage
-Supports a single argument:
+A simple GET returns a new UUID
 
-`http://<server-url>/?XXXXX`
+`http://<server-url>/`
 
-where XXXXX is a five digit code
 
 ### Notes
-Returns the following formats:
+Returns a plain string (`text/plain`) response:
 
-* `image/png` : PNG file of red X or green check
-* `application/json` : `{"zip" : "true|false"}`
-* `text/plain` : true|false
+
+* `200 OK` plus a valid UUID
+* `400 Invalid` plus an empty body
 
